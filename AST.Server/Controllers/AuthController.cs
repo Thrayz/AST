@@ -29,10 +29,18 @@ namespace AST.Server.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return Ok("Registered successfully");
-            }
+                return Ok(new { message = "Registered successfully" });
 
-            return BadRequest(result.Errors);
+            }
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Code: {error.Code}, Description: {error.Description}");
+                }
+            }
+            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
+
         }
 
         [HttpPost]
@@ -43,11 +51,27 @@ namespace AST.Server.Controllers
 
             if (result.Succeeded)
             {
-                return Ok("Login successful");
+                return Ok(new { message = "Login successful" });
             }
 
-            return BadRequest("Login failed");
+            if (result.IsLockedOut)
+            {
+                return BadRequest(new { message = "Account is locked out" });
+            }
+
+            if (result.IsNotAllowed)
+            {
+                return BadRequest(new { message = "Not allowed to sign in" });
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                return BadRequest(new { message = "Two-factor authentication required" });
+            }
+
+            return BadRequest(new { message = "Invalid login attempt" });
         }
+
 
         [HttpPost]
         [Route("logout")]
