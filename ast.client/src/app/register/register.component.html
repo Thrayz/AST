@@ -1,0 +1,5 @@
+<form (submit)="$event.preventDefault(); register(email.value, password.value)">
+  <input type="email" #email required placeholder="Email">
+  <input type="password" #password required placeholder="Password">
+  <button type="submit">Register</button>
+</form>

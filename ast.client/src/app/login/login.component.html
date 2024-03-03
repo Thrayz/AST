@@ -1,0 +1,7 @@
+<form (submit)="console(); login(email.value, password.value, rememberMe.checked)">
+  <input type="email" #email required placeholder="Email">
+  <input type="password" #password required placeholder="Password">
+  <input type="checkbox" #rememberMe id="rememberMe">
+  <label for="rememberMe">Remember Me</label>
+  <button type="submit">Login</button>
+</form>

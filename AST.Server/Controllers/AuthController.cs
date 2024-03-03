@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AST.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AST.Server.Controllers
 {
@@ -76,6 +77,14 @@ namespace AST.Server.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        [Route("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userManager.Users.ToListAsync(); // Assuming Entity Framework Core is used for data access
+            return Ok(users);
         }
     }
 
