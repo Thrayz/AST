@@ -7,6 +7,7 @@ import { SharedServiceService } from '../_services/shared-service.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  public errorMessage: string | null = null;
 
   constructor(private sharedService: SharedServiceService) { }
 
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
       },
       (error: any) => {
         console.error("Login failed", error);
+        this.errorMessage = error.error.message || "Login failed";
       }
     );
   }

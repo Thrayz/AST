@@ -7,7 +7,7 @@ import { SharedServiceService } from '../_services/shared-service.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
+  public errorMessage: string | null = null;
   constructor(private sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
@@ -23,7 +23,8 @@ export class RegisterComponent implements OnInit {
       },
         (      error: any) => {
      
-        console.error("Registration failed", error);
+          console.error("Registration failed", error);
+          this.errorMessage = error.error.message || "Registration failed";
       }
     );
   }
