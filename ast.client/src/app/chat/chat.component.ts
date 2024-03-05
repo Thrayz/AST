@@ -21,8 +21,7 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     if (this.newMessage.trim() !== '') {
-      // Assuming userId is available in the component
-      const userId = 'currentUser';
+      const userId = '20086aaa-efd6-4eab-900d-a5f58f24a6a0';
 
       this.chatService.sendMessage(userId, this.newMessage);
       this.newMessage = '';

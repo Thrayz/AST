@@ -8,7 +8,8 @@ namespace AST.Server.SignalR
 
         public override async Task OnConnectedAsync()
         {
-            string userId = Context.UserIdentifier;
+            //string userId = Context.UserIdentifier;
+            string userId = "20086aaa-efd6-4eab-900d-a5f58f24a6a0";
             string connectionId = Context.ConnectionId;
 
             if (!_userConnections.ContainsKey(userId))
@@ -23,7 +24,8 @@ namespace AST.Server.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            string userId = Context.UserIdentifier;
+            //string userId = Context.UserIdentifier;
+            string userId = "20086aaa-efd6-4eab-900d-a5f58f24a6a0";
             string connectionId = Context.ConnectionId;
 
             if (_userConnections.ContainsKey(userId))

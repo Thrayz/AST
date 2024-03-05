@@ -16,7 +16,10 @@ export class ChatService {
       .withUrl('https://localhost:7122/chathub') 
       .build();
 
-    this.hubConnection.start().catch(err => console.error(err));
+    this.hubConnection.start()
+      .then(() => console.log('Connection started'))
+      .catch(err => console.error('Error while starting connection: ' + err));
+
 
     this.hubConnection.on('ReceiveMessage', (userId: string, message: string) => {
       this.receivedMessageSubject.next({ userId, message });
@@ -25,7 +28,7 @@ export class ChatService {
 
 
   sendMessage(userId: string, message: string) {
-    this.hubConnection.invoke('SendMessage', userId, message)
+    this.hubConnection.invoke('SendMessageToUser', userId, message)
       .catch((err: any) => console.error(err));
   }
 
