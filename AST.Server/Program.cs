@@ -35,6 +35,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddSignalR();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -84,9 +85,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(options =>
 {
-    options.AllowAnyOrigin();
-    options.AllowAnyMethod();
-    options.AllowAnyHeader();
+    options.WithOrigins("https://localhost:4200")
+    .AllowAnyMethod()
+   .AllowAnyHeader()
+    .AllowCredentials();
 });
+
+
+app.MapHub<AST.Server.SignalR.ChatHub>("/chatHub");
 
 app.Run();

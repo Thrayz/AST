@@ -9,5 +9,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
         : base(options)
     {
     }
-  
+    public DbSet<Message> Messages { get; set; }
+
 }
