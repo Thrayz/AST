@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AST.Server.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace AST.Server.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -17,6 +22,24 @@ namespace AST.Server.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+        private string GenerateJwtToken(IdentityUser user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("testTokentest123zzzzzzzzzzzzzzzzzzzzzzz");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         [HttpPost]
@@ -51,7 +74,10 @@ namespace AST.Server.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "Login successful" });
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var token = GenerateJwtToken(user); 
+
+                return Ok(new { message = "Login successful", token = token });
             }
 
             if (result.IsLockedOut)
@@ -88,7 +114,7 @@ namespace AST.Server.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
+                
                 return Ok("Reset password email sent");
             }
 
@@ -131,3 +157,4 @@ namespace AST.Server.Controllers
         public string NewPassword { get; set; }
     }
 }
+
