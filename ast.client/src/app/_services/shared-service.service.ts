@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,22 @@ export class SharedServiceService {
   }
 
   login(email: string, password: string, rememberMe: boolean) {
-    return this.http.post<any>(`${this.apiUrl}account/login`, { email, password, rememberMe });
+    return this.http.post<any>(`${this.apiUrl}account/login`, { email, password, rememberMe })
+      .pipe(
+        tap((response: any) => {
+          if (response.token) {
+            localStorage.setItem('token', response.token);
+          } else {
+            console.error('Login failed');
+          }
+        }),
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
   }
+
 
   logout() {
     return this.http.post<any>(`${this.apiUrl}account/logout`, {});

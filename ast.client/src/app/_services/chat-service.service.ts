@@ -1,6 +1,7 @@
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import { decode } from 'jsonwebtoken'; 
 
 
 @Injectable({
@@ -9,7 +10,12 @@ import { Subject, Observable } from 'rxjs';
 export class ChatService {
   private hubConnection: HubConnection;
   private receivedMessageSubject: Subject<{ userId: string, message: string }> = new Subject<{ userId: string, message: string }>();
+
+
  
+
+
+
 
   constructor() {
     this.hubConnection = new HubConnectionBuilder()

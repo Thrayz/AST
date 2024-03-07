@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../_services/chat-service.service';
+import { jwtDecode } from 'jwt-decode';
+
+
+
+
 
 
 @Component({
@@ -21,10 +26,21 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     if (this.newMessage.trim() !== '') {
-      const userId = '20086aaa-efd6-4eab-900d-a5f58f24a6a0';
-
-      this.chatService.sendMessage(userId, this.newMessage);
-      this.newMessage = '';
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken: any = jwtDecode(token);
+        const userId = decodedToken && typeof decodedToken.nameid === 'string' ? decodedToken.nameid : null;
+        if (userId) {
+          this.chatService.sendMessage(userId, this.newMessage);
+          this.newMessage = '';
+        } else {
+          console.error('User ID is not available');
+        }
+      }
     }
   }
+
+
+
+
 }
