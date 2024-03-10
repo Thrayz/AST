@@ -2,6 +2,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { decode } from 'jsonwebtoken'; 
+import * as signalR from '@microsoft/signalr';
 
 
 @Injectable({
@@ -18,9 +19,12 @@ export class ChatService {
 
 
   constructor() {
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:7122/chathub') 
+
+    const token = localStorage.getItem('token') ?? 'test';
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl("https://localhost:7122/chatHub", { accessTokenFactory: () => token })
       .build();
+
 
     this.hubConnection.start()
       .then(() => console.log('Connection started'))

@@ -1,15 +1,26 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace AST.Server.SignalR
 {
+    
     public class ChatHub : Hub
     {
         private static readonly Dictionary<string, HashSet<string>> _userConnections = new Dictionary<string, HashSet<string>>();
+        public string GetUserIdFromToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var userIdClaim = jwtToken.Claims.First(claim => claim.Type == "nameid").Value;
+            return userIdClaim;
+        }
 
         public override async Task OnConnectedAsync()
         {
-            //string userId = Context.UserIdentifier;
-            string userId = "20086aaa-efd6-4eab-900d-a5f58f24a6a0";
+            string token = Context.GetHttpContext().Request.Query["access_token"];
+            string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
 
             if (!_userConnections.ContainsKey(userId))
@@ -23,9 +34,9 @@ namespace AST.Server.SignalR
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            //string userId = Context.UserIdentifier;
-            string userId = "20086aaa-efd6-4eab-900d-a5f58f24a6a0";
+        {  
+            string token = Context.GetHttpContext().Request.Query["access_token"];
+            string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
 
             if (_userConnections.ContainsKey(userId))

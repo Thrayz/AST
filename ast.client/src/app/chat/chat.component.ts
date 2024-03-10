@@ -31,6 +31,7 @@ export class ChatComponent implements OnInit {
         const decodedToken: any = jwtDecode(token);
         const userId = decodedToken && typeof decodedToken.nameid === 'string' ? decodedToken.nameid : null;
         if (userId) {
+          console.log('Sending message to user ID:', userId);
           this.chatService.sendMessage(userId, this.newMessage);
           this.newMessage = '';
         } else {
