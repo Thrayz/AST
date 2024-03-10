@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AST.Server.Controllers
 {
@@ -18,11 +19,20 @@ namespace AST.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Message>> SendMessage(Message message)
+        public async Task<ActionResult<Message>> SendMessage(string recipientUserId, string messageContent)
         {
+            var senderUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value; 
+
+            var message = new Message
+            {
+                SenderId = senderUserId,
+                ReceiverId = recipientUserId,
+                Content = messageContent
+            };
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetMessages), new { id = message.Id }, message);
         }
+
     }
 }

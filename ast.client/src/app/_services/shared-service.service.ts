@@ -10,8 +10,8 @@ export class SharedServiceService {
 
   constructor(private http: HttpClient) { }
 
-  register(email: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}account/register`, { email, password });
+  register(email: string,username:string,phoneNumber: string, password: string) {
+    return this.http.post<any>(`${this.apiUrl}account/register`, { email,username,phoneNumber, password });
   }
 
   login(email: string, password: string, rememberMe: boolean) {
@@ -39,4 +39,11 @@ export class SharedServiceService {
   resetPassword(email: string, newPassword: string) {
     return this.http.post<any>(`${this.apiUrl}account/resetpassword`, { email, newPassword });
   }
+
+
+  getUsers() {
+    return this.http.get<any[]>(`${this.apiUrl}account/users`);
+  }
+
+
 }

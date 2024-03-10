@@ -1,4 +1,7 @@
 <div class="chat-container">
+  <div class="user-selection">
+    <app-user-list (userSelected)="selectUser($event)"></app-user-list>
+  </div>
   <div class="messages-container">
     <div *ngFor="let message of receivedMessages" class="message">
       <span class="sender">{{ message.userId }}:</span>

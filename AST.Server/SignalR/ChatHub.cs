@@ -1,14 +1,25 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AST.Server.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace AST.Server.SignalR
 {
-    
     public class ChatHub : Hub
     {
+        private readonly ApplicationDbContext _context;
         private static readonly Dictionary<string, HashSet<string>> _userConnections = new Dictionary<string, HashSet<string>>();
+
+        public ChatHub(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public string GetUserIdFromToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -19,7 +30,8 @@ namespace AST.Server.SignalR
 
         public override async Task OnConnectedAsync()
         {
-            string token = Context.GetHttpContext().Request.Query["access_token"];
+            var httpContext = Context.GetHttpContext();
+            string token = httpContext.Request.Query["access_token"];
             string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
 
@@ -34,8 +46,9 @@ namespace AST.Server.SignalR
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
-        {  
-            string token = Context.GetHttpContext().Request.Query["access_token"];
+        {
+            var httpContext = Context.GetHttpContext();
+            string token = httpContext.Request.Query["access_token"];
             string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
 
@@ -52,16 +65,29 @@ namespace AST.Server.SignalR
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendMessageToUser(string userId, string message)
+        public async Task SendMessageToUser(string recipientUserId, string messageContent, string token)
         {
-            if (_userConnections.ContainsKey(userId))
+            var senderUserId = GetUserIdFromToken(token);
+
+            var message = new Message
             {
-                foreach (var connectionId in _userConnections[userId])
+                SenderId = senderUserId,
+                ReceiverId = recipientUserId,
+                Content = messageContent
+            };
+
+            _context.Messages.Add(message);
+            await _context.SaveChangesAsync();
+
+            if (_userConnections.ContainsKey(recipientUserId))
+            {
+                foreach (var connectionId in _userConnections[recipientUserId])
                 {
-                    await Clients.Client(connectionId).SendAsync("ReceiveMessage", Context.UserIdentifier, message);
+                    await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderUserId, messageContent);
                 }
             }
         }
+
 
         public async Task BroadcastMessage(string message)
         {

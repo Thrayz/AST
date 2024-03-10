@@ -14,9 +14,9 @@ export class RegisterComponent implements OnInit {
   
   }
 
-  register(email: string, password: string) {
+  register(email: string, username: string, phoneNumber: string ,  password: string) {
    
-    this.sharedService.register(email, password).subscribe(
+    this.sharedService.register(email,username,phoneNumber,password).subscribe(
         (      response: any) => {
       
         console.log("Registration successful");

@@ -46,7 +46,7 @@ namespace AST.Server.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
-            var user = new User { UserName = model.Email, Email = model.Email };
+            var user = new User { UserName = model.UserName, Email = model.Email, PhoneNumber = model.PhoneNumber };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -74,7 +74,7 @@ namespace AST.Server.Controllers
 
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByNameAsync(model.Email);
                 var token = GenerateJwtToken(user); 
 
                 return Ok(new { message = "Login successful", token = token });
@@ -133,14 +133,16 @@ namespace AST.Server.Controllers
         [Route("users")]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync(); // Assuming Entity Framework Core is used for data access
+            var users = await _userManager.Users.ToListAsync(); 
             return Ok(users);
         }
     }
 
     public class RegisterViewModel
     {
+        public string UserName { get; set; }
         public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public string Password { get; set; }
     }
 
