@@ -18,13 +18,13 @@ namespace AST.Server.Controllers
         {
             _context = context;
         }
-        [HttpGet]
+        [HttpGet("/Paginated")]
         public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesPaginated(int page, int pageSize)
         {
             return await _context.Activities.Skip(page * pageSize).Take(pageSize).ToListAsync();
         }
 
-        [HttpGet]
+        [HttpGet("/FilteredAndPaginated")]
         public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesFilteredandPaginated(int page, int pageSize, string filter)
         {
             return await _context.Activities.Where(a => a.ActivityType.Contains(filter)).Skip(page * pageSize).Take(pageSize).ToListAsync();

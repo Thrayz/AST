@@ -20,6 +20,7 @@ import { ChallengeUpdateComponent } from './Challenge/challenge-update/challenge
 import { GoalListComponent } from './Goal/goal-list/goal-list.component';
 import { GoalCreateComponent } from './Goal/goal-create/goal-create.component';
 import { GoalUpdateComponent } from './Goal/goal-update/goal-update.component';
+import { UserAccountComponent } from './user-account/user-account.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { GoalUpdateComponent } from './Goal/goal-update/goal-update.component';
     ChallengeUpdateComponent,
     GoalListComponent,
     GoalCreateComponent,
-    GoalUpdateComponent
+    GoalUpdateComponent,
+    UserAccountComponent
   ],
   imports: [
     BrowserModule,
