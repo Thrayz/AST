@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     this.sharedService.login(email, password, rememberMe).subscribe(
       (response: any) => {
         console.log("Login successful");
+        
       },
       (error: any) => {
         console.error("Login failed", error);

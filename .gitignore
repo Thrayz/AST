@@ -1,2 +1,6 @@
 .vs
 ast.client/node_modules
+AST.Server/bin/**
+AST.Server/obj
+AST.Server/bin
+AST.Server/obj/**
