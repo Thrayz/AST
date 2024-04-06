@@ -1,24 +1,24 @@
-<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-  <div class="card" style="width: 18rem;">
+<div class="container d-flex justify-content-center align-items-center vh-100 text-center text-white">
+  <div class="animated fadeInDown login-form card" style="max-width: 30rem;">
     <div class="card-body">
       <form (submit)="$event.preventDefault(); register(email.value,username.value, phoneNumber.value, password.value)" class="form-group">
-        <div class="form-group">
-          <label for="email">Email</label>
+        <div class="form-floating mb-3">
+          
           <input type="email" #email required placeholder="Email" id="email" class="form-control">
         </div>
-        <div class="form-group">
-          <label for="username">Username</label>
+        <div class="form-floating mb-3">
+          
           <input type="text" #username required placeholder="Username" id="username" class="form-control">
         </div>
-        <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
+        <div class="form-floating mb-3">
+          
           <input type="text" #phoneNumber required placeholder="Phone Number" id="phoneNumber" class="form-control">
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div class="form-floating mb-3">
+         
           <input type="password" #password required placeholder="Password" id="password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
       </form>
     </div>
   </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudServiceService } from 'src/app/_services/crud-service.service';
+
 
 @Component({
   selector: 'app-activity-create',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActivityCreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: CrudServiceService) { }
 
   ngOnInit(): void {
   }
+
+  
 
 }

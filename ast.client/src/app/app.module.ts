@@ -21,6 +21,8 @@ import { GoalListComponent } from './Goal/goal-list/goal-list.component';
 import { GoalCreateComponent } from './Goal/goal-create/goal-create.component';
 import { GoalUpdateComponent } from './Goal/goal-update/goal-update.component';
 import { UserAccountComponent } from './user-account/user-account.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { UserAccountComponent } from './user-account/user-account.component';
     GoalListComponent,
     GoalCreateComponent,
     GoalUpdateComponent,
-    UserAccountComponent
+    UserAccountComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

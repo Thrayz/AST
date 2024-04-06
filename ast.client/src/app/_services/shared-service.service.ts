@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +34,7 @@ export class SharedServiceService {
 
 
   logout() {
+    localStorage.removeItem('token');
     return this.http.post<any>(`${this.apiUrl}account/logout`, {});
   }
 
@@ -44,6 +46,21 @@ export class SharedServiceService {
   getUsers() {
     return this.http.get<any[]>(`${this.apiUrl}account/users`);
   }
+
+  isAuthenticated() {
+    if(localStorage.getItem('token')) {
+  
+      return true;
+    } else {  
+      return false;
+    }
+  }
+
+
+
+
+
+
 
 
 }
