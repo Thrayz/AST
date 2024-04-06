@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string? GoalType { get; set; }
-        public int ? GoalValue { get; set; }
+        public int? GoalValue { get; set; }
 
         public DateTime? Date { get; set; }
 
