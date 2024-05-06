@@ -35,9 +35,6 @@ namespace AST.Server.Migrations
                     b.Property<float?>("CaloriesBurned")
                         .HasColumnType("real");
 
-                    b.Property<int?>("ChallengeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
@@ -63,8 +60,6 @@ namespace AST.Server.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChallengeId");
 
                     b.HasIndex("TrainingPlanId");
 
@@ -98,6 +93,41 @@ namespace AST.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Challenges");
+                });
+
+            modelBuilder.Entity("AST.Server.Models.ChallengeActivity", b =>
+                {
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChallengeId", "ActivityId");
+
+                    b.HasIndex("ActivityId");
+
+                    b.ToTable("ChallengeActivities");
+                });
+
+            modelBuilder.Entity("AST.Server.Models.ChallengeUser", b =>
+                {
+                    b.Property<int?>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ChallengeId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("ChallengeUsers");
                 });
 
             modelBuilder.Entity("AST.Server.Models.DailyInformation", b =>
@@ -306,6 +336,26 @@ namespace AST.Server.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("AST.Server.Models.TeamUser", b =>
+                {
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("TeamId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("TeamUsers");
+                });
+
             modelBuilder.Entity("AST.Server.Models.TrainingPlan", b =>
                 {
                     b.Property<int>("Id")
@@ -352,9 +402,6 @@ namespace AST.Server.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ChallengeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -392,9 +439,6 @@ namespace AST.Server.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("TrainingPlanId")
                         .HasColumnType("int");
 
@@ -407,8 +451,6 @@ namespace AST.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChallengeId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -416,8 +458,6 @@ namespace AST.Server.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("TeamId");
 
                     b.HasIndex("TrainingPlanId");
 
@@ -559,10 +599,6 @@ namespace AST.Server.Migrations
 
             modelBuilder.Entity("AST.Server.Models.Activity", b =>
                 {
-                    b.HasOne("AST.Server.Models.Challenge", null)
-                        .WithMany("Activities")
-                        .HasForeignKey("ChallengeId");
-
                     b.HasOne("AST.Server.Models.TrainingPlan", null)
                         .WithMany("Activities")
                         .HasForeignKey("TrainingPlanId");
@@ -570,6 +606,48 @@ namespace AST.Server.Migrations
                     b.HasOne("AST.Server.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AST.Server.Models.ChallengeActivity", b =>
+                {
+                    b.HasOne("AST.Server.Models.Activity", "Activity")
+                        .WithMany("ChallengeActivities")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AST.Server.Models.Challenge", "Challenge")
+                        .WithMany("ChallengeActivities")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("Challenge");
+                });
+
+            modelBuilder.Entity("AST.Server.Models.ChallengeUser", b =>
+                {
+                    b.HasOne("AST.Server.Models.Challenge", "Challenge")
+                        .WithMany("ChallengeUsers")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AST.Server.Models.User", null)
+                        .WithMany("ChallengeUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AST.Server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Challenge");
 
                     b.Navigation("User");
                 });
@@ -655,6 +733,29 @@ namespace AST.Server.Migrations
                     b.Navigation("TargetUser");
                 });
 
+            modelBuilder.Entity("AST.Server.Models.TeamUser", b =>
+                {
+                    b.HasOne("AST.Server.Models.Team", "Team")
+                        .WithMany("Users")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AST.Server.Models.User", null)
+                        .WithMany("Teams")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AST.Server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("AST.Server.Models.TrainingPlan", b =>
                 {
                     b.HasOne("AST.Server.Models.Goal", "Goals")
@@ -672,19 +773,9 @@ namespace AST.Server.Migrations
 
             modelBuilder.Entity("AST.Server.Models.User", b =>
                 {
-                    b.HasOne("AST.Server.Models.Challenge", null)
-                        .WithMany("Users")
-                        .HasForeignKey("ChallengeId");
-
-                    b.HasOne("AST.Server.Models.Team", "Team")
-                        .WithMany("Users")
-                        .HasForeignKey("TeamId");
-
                     b.HasOne("AST.Server.Models.TrainingPlan", null)
                         .WithMany("Users")
                         .HasForeignKey("TrainingPlanId");
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -738,11 +829,16 @@ namespace AST.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AST.Server.Models.Activity", b =>
+                {
+                    b.Navigation("ChallengeActivities");
+                });
+
             modelBuilder.Entity("AST.Server.Models.Challenge", b =>
                 {
-                    b.Navigation("Activities");
+                    b.Navigation("ChallengeActivities");
 
-                    b.Navigation("Users");
+                    b.Navigation("ChallengeUsers");
                 });
 
             modelBuilder.Entity("AST.Server.Models.Team", b =>
@@ -755,6 +851,13 @@ namespace AST.Server.Migrations
                     b.Navigation("Activities");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("AST.Server.Models.User", b =>
+                {
+                    b.Navigation("ChallengeUsers");
+
+                    b.Navigation("Teams");
                 });
 #pragma warning restore 612, 618
         }

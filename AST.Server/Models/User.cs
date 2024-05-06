@@ -4,12 +4,13 @@ namespace AST.Server.Models
 {
     public class User : IdentityUser
     {
-        public int? TeamId { get; set; }
-        public Team? Team { get; set; }
-        
+      
+        public ICollection<ChallengeUser> ChallengeUsers { get; set; } = new List<ChallengeUser>();
+        public ICollection<TeamUser> Teams { get; set; } = new List<TeamUser>();
 
 
-        
+
+
 
     }
 }

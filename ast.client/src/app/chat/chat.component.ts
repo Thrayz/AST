@@ -26,6 +26,7 @@ export class ChatComponent implements OnInit {
     this.chatService.getReceivedMessage().subscribe({
       next: (message) => {
         this.receivedMessages.push(message);
+        console.log(this.receivedMessages.push(message));
       },
       error: (error) => {
         console.error('Error receiving message:', error);
@@ -46,7 +47,7 @@ export class ChatComponent implements OnInit {
         .subscribe({
           next: () => {
             console.log('Message sent successfully');
-            this.saveMessageToDatabase(this.selectedUser.id, this.newMessage);
+           // this.saveMessageToDatabase(this.selectedUser.id, this.newMessage);
             this.newMessage = '';
           },
           error: (error) => {

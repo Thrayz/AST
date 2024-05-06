@@ -41,6 +41,7 @@ export class ChatService {
 
   receiveMessage(callback: (userId: string, message: string) => void) {
     this.hubConnection.on('ReceiveMessage', callback);
+    console.log(callback);
   }
 
   getReceivedMessage(): Observable<{ userId: string, message: string }> {

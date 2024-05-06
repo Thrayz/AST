@@ -20,6 +20,7 @@
         public int ? UserId { get; set; }
 
         public User? User { get; set; }
+        public ICollection<ChallengeActivity> ChallengeActivities { get; set; } = new List<ChallengeActivity>();
 
 
 

@@ -4,7 +4,8 @@
     {
         public int Id { get; set; }
         public string? TeamName { get; set; }
-        public List<User>? Users { get; set; }
+        public ICollection<TeamUser> Users { get; set; } = new List<TeamUser>();
+
 
     }
 }

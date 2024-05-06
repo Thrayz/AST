@@ -33,24 +33,7 @@ namespace AST.Server.Controllers
         }
 
 
-        [HttpPost]
-        [Route("/addUser")]
-        public async Task<ActionResult<Team>> AddUserToTeam(string userId, int teamId)
-        {
-            var team = await _context.Teams.FindAsync(teamId);
-            if (team == null)
-            {
-                return NotFound();
-            }
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            team.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTeams), new { id = team.Id }, team);
-        }
+
 
 
         [HttpPut("{id}")]
@@ -90,24 +73,7 @@ namespace AST.Server.Controllers
         }
 
 
-        [HttpDelete]
-        [Route("/removeUser")]
-        public async Task<ActionResult<Team>> RemoveUserFromTeam(string userId, int teamId)
-        {
-            var team = await _context.Teams.FindAsync(teamId);
-            if (team == null)
-            {
-                return NotFound();
-            }
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            team.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTeams), new { id = team.Id }, team);
-        }
+
 
         
         private bool TeamExists(int id)

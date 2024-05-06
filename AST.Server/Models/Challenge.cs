@@ -7,9 +7,10 @@
         public string ChallengeDescription { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public List<User> Users { get; set; }
-        public List<Activity> Activities { get; set; }
+        public ICollection<ChallengeUser> ChallengeUsers { get; set; } = new List<ChallengeUser>();
+        public ICollection<ChallengeActivity> ChallengeActivities { get; set; } = new List<ChallengeActivity>();
 
-        
+
+
     }
 }
