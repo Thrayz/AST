@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using AST.Server.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.CodeDom;
 
 
 namespace AST.Server.Controllers
@@ -90,6 +93,139 @@ namespace AST.Server.Controllers
 
             return NoContent();
         }
+        [HttpPost("addUserToChallenge")]
+        public async Task<ActionResult<ChallengeUser>> AddUserToChallenge(int challengeId, string userId)
+        {
+            try
+            {
+                var challenge = await _context.Challenges.Include(c => c.ChallengeUsers).FirstOrDefaultAsync(c => c.Id == challengeId);
+                var user = await _context.Users.Include(u => u.ChallengeUsers).FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (challenge == null || user == null)
+                {
+                    return NotFound();
+                }
+
+                var challengeUser = new ChallengeUser { ChallengeId = challengeId, Challenge = challenge, User = user, UserId = userId };
+                challenge.ChallengeUsers.Add(challengeUser);
+                user.ChallengeUsers.Add(challengeUser);
+
+                await _context.SaveChangesAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+                var challengeUserJson = JsonSerializer.Serialize(challengeUser, options);
+
+                return Content(challengeUserJson, "application/json");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("addActivityToChallenge")]
+        public async Task<ActionResult<ChallengeActivity>> AddActivityToChallenge(int challengeId, int activityId)
+        {
+            try
+            {
+                var challenge = await _context.Challenges.Include(c => c.ChallengeActivities).FirstOrDefaultAsync(c => c.Id == challengeId);
+                var activity = await _context.Activities.FindAsync(activityId);
+
+                if (challenge == null || activity == null)
+                {
+                    return NotFound();
+                }
+
+                var challengeActivity = new ChallengeActivity { ChallengeId = challengeId, ActivityId = activityId, Challenge = challenge, Activity = activity };
+                challenge.ChallengeActivities.Add(challengeActivity);
+
+                await _context.SaveChangesAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+                var challengeActivityJson = JsonSerializer.Serialize(challengeActivity, options);
+
+                return Content(challengeActivityJson, "application/json");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("removeUserFromChallenge")]
+        public async Task<ActionResult<ChallengeUser>> RemoveUserFromChallenge(int challengeId, string userId)
+        {
+            try
+            {
+                var challenge = await _context.Challenges.Include(c => c.ChallengeUsers).FirstOrDefaultAsync(c => c.Id == challengeId);
+                var user = await _context.Users.Include(u => u.ChallengeUsers).FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (challenge == null || user == null)
+                {
+                    return NotFound();
+                }
+
+                var challengeUser = challenge.ChallengeUsers.FirstOrDefault(cu => cu.UserId == userId);
+                challenge.ChallengeUsers.Remove(challengeUser);
+                user.ChallengeUsers.Remove(challengeUser);
+
+                await _context.SaveChangesAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+                var challengeUserJson = JsonSerializer.Serialize(challengeUser, options);
+
+                return Content(challengeUserJson, "application/json");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("removeActivityFromChallenge")]
+        public async Task<ActionResult<ChallengeActivity>> RemoveActivityFromChallenge(int challengeId, int activityId)
+        {
+            try
+            {
+                var challenge = await _context.Challenges.Include(c => c.ChallengeActivities).FirstOrDefaultAsync(c => c.Id == challengeId);
+                var activity = await _context.Activities.FindAsync(activityId);
+
+                if (challenge == null || activity == null)
+                {
+                    return NotFound();
+                }
+
+                var challengeActivity = challenge.ChallengeActivities.FirstOrDefault(ca => ca.ActivityId == activityId);
+                challenge.ChallengeActivities.Remove(challengeActivity);
+
+                await _context.SaveChangesAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+                var challengeActivityJson = JsonSerializer.Serialize(challengeActivity, options);
+
+                return Content(challengeActivityJson, "application/json");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+       
+
+
 
         private bool ChallengeExists(int id)
         {

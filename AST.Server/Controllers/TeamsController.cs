@@ -115,6 +115,19 @@ namespace AST.Server.Controllers
             return await _context.TeamUsers.ToListAsync();
         }
 
+        [HttpGet("GetTeamUserT/{teamId}")]
+        public async Task<IEnumerable<TeamUser>> getTeamUsers(int teamId)
+        {
+            return await _context.TeamUsers.Where(tu => tu.TeamId == teamId).ToListAsync();
+        }
+
+        [HttpGet("GetTeamUserU/{userId}")]
+        public async Task<IEnumerable<TeamUser>> getUserTeams(string userId)
+        {
+            return await _context.TeamUsers.Where(tu => tu.UserId == userId).ToListAsync();
+        }
+
+
 
 
         private bool TeamExists(int id)
