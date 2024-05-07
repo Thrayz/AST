@@ -12,6 +12,7 @@ export class ActivityCreateComponent implements OnInit {
   constructor(private service: CrudServiceService) { }
 
   ngOnInit(): void {
+    
   }
 
   

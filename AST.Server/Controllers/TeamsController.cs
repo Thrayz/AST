@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using AST.Server.Models;
 using Microsoft.EntityFrameworkCore;
+using Azure.Core;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 
 
@@ -73,9 +76,47 @@ namespace AST.Server.Controllers
         }
 
 
+        [HttpPost("addUserToTeam")]
+        public async Task<ActionResult<Team>> AddUserToTeam(int teamId, string userId)
+        {
+            try
+            {
+                var team = await _context.Teams.Include(t => t.Users).FirstOrDefaultAsync(t => t.Id == teamId);
+                var user = await _context.Users.Include(u => u.Teams).FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (team == null || user == null)
+                {
+                    return NotFound();
+                }
+
+                var teamUser = new TeamUser { TeamId = teamId, Team=team, User=user, UserId = userId };
+                team.Users.Add(teamUser);
+                user.Teams.Add(teamUser);
+
+                await _context.SaveChangesAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+                var teamJson = JsonSerializer.Serialize(team, options);
+
+                return Content(teamJson, "application/json");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetTeamUser")]
+        public async Task<IEnumerable<TeamUser>> getAllTeamUsers()
+        {
+            return await _context.TeamUsers.ToListAsync();
+        }
 
 
-        
+
         private bool TeamExists(int id)
         {
             return _context.Teams.Any(e => e.Id == id);
