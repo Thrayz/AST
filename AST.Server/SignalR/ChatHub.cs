@@ -1,6 +1,7 @@
 ﻿using AST.Server.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -64,34 +65,108 @@ namespace AST.Server.SignalR
 
             await base.OnDisconnectedAsync(exception);
         }
+        /*
+       public async Task SendMessageToUser(string recipientUserId, string messageContent, string token)
+       {
+           var senderUserId = GetUserIdFromToken(token);
 
-        public async Task SendMessageToUser(string recipientUserId, string messageContent, string token)
+           var message = new Message
+           {
+               SenderId = senderUserId,
+               ReceiverId = recipientUserId,
+               Content = messageContent
+           };
+
+           _context.Messages.Add(message);
+           await _context.SaveChangesAsync();
+
+          
+
+
+            await Clients.User("706f458a-6bcb-44ec-af6d-4bb35a4acd9f").SendAsync("ReceiveMessage", senderUserId, messageContent);
+
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
+
+
+            await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
+        }
+
+       
+     public async Task BroadcastMessage(string message)
+     {
+         await Clients.All.SendAsync("ReceiveMessage", Context.UserIdentifier, message);
+     }  */
+
+        public async Task SendMessageToUser(string recipientUserId, string messageContent)
+     {
+            var senderUserId = "eb04b5e3-49cd-477a-94d9-a17317e604b4";
+            var recipientUserId1 = "706f458a-6bcb-44ec-af6d-4bb35a4acd9f";
+
+         var message = new Message
+         {
+             SenderId = senderUserId,
+             ReceiverId = recipientUserId1,
+             Content = messageContent
+         };
+
+            await Clients.User("706f458a-6bcb-44ec-af6d-4bb35a4acd9f").SendAsync("ReceiveMessage", senderUserId, messageContent);
+            await Clients.Users(senderUserId, recipientUserId1).SendAsync("ReceiveMessage", senderUserId, messageContent);
+
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
+
+
+            _context.Messages.Add(message);
+         await _context.SaveChangesAsync();
+
+
+        
+
+         await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
+     }
+    
+        public async Task BroadcastMessage(string messageContent)
         {
-            var senderUserId = GetUserIdFromToken(token);
+            var senderUserId = Context.UserIdentifier;
 
             var message = new Message
             {
                 SenderId = senderUserId,
-                ReceiverId = recipientUserId,
                 Content = messageContent
             };
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 
-            if (_userConnections.ContainsKey(recipientUserId))
-            {
-                foreach (var connectionId in _userConnections[recipientUserId])
-                {
-                    await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderUserId, messageContent);
-                }
-            }
+          
+            await Clients.Others.SendAsync("ReceiveMessage", senderUserId, messageContent);
+
+          
+            await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
         }
 
 
-        public async Task BroadcastMessage(string message)
+
+
+
+   
+        public async Task GetConnectedUsers()
         {
-            await Clients.All.SendAsync("ReceiveMessage", Context.UserIdentifier, message);
+            var connectedUsers = new List<string>();
+
+            foreach (var userId in _userConnections.Keys)
+            {
+                connectedUsers.Add(userId);
+                Console.WriteLine("Connected user: " + userId);
+            }
+            var connectedUsersJson = JsonConvert.SerializeObject(connectedUsers);
+
+            await Clients.Caller.SendAsync("ReceiveConnectedUsers", connectedUsersJson);
+
+            Console.WriteLine("Connected users sent to client");
+            Console.WriteLine(connectedUsersJson);
         }
     }
+
+
+
 }

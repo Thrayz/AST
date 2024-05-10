@@ -1,15 +1,28 @@
 <div class="chat-container">
+
   <div class="user-selection">
     <app-user-list (userSelected)="selectUser($event)"></app-user-list>
   </div>
+
   <div class="messages-container">
-    <div *ngFor="let message of receivedMessages" class="message">
-      <span class="sender">{{ message.userId }}:</span>
+
+    <div *ngFor="let message of receivedMessages" [ngClass]="{ 'message-right': message.userId === 'you', 'message-left': message.userId !== 'you' }">
+      <span class="sender">{{ message.userId === 'you' ? 'You' : 'Not You' }}:</span>
       <span class="text">{{ message.message }}</span>
     </div>
+
+    <div *ngIf="selectedUser" class="private-chat">
+      <div *ngFor="let message of privateChatMessages" [ngClass]="{ 'message-right': message.userId === 'you', 'message-left': message.userId !== 'you' }">
+        <span class="sender">{{ message.userId === 'you' ? 'You' : 'Not You' }}:</span>
+        <span class="text">{{ message.content }}</span>
+      </div>
+    </div>
   </div>
+
   <div class="input-container">
     <input type="text" placeholder="Type your message..." [(ngModel)]="newMessage">
     <button (click)="sendMessage()">Send</button>
+    <button (click)="broadcastMessage()">Broadcast</button>
   </div>
 </div>
+<button (click)="bullshit()">bullshit typa shit </button>

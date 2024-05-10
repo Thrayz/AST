@@ -17,6 +17,46 @@ namespace AST.Server.Controllers
         {
             return await _context.Messages.ToListAsync();
         }
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessages(string userId)
+        {
+            var currentUserId = "eb04b5e3-49cd-477a-94d9-a17317e604b4";
+
+            var messages = await _context.Messages
+                .Where(m => (m.SenderId == currentUserId && m.ReceiverId == userId) || (m.SenderId == userId && m.ReceiverId == currentUserId))
+                .ToListAsync();
+
+            if (messages != null && messages.Count > 0)
+            {
+                Console.WriteLine("Messages:");
+                foreach (var message in messages)
+                {
+                    Console.WriteLine(message.Content);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No messages found.");
+            }
+
+            return messages;
+        }
+
+        /*
+         [HttpGet("{userId}")]
+public async Task<ActionResult<IEnumerable<Message>>> GetMessages(string userId, [FromQuery] string senderId)
+{
+    var currentUserId = senderId; // Use the senderId from query parameter
+    // Fetch messages between the current user and the specified user
+    var messages = await _context.Messages
+        .Where(m => (m.SenderId == currentUserId && m.ReceiverId == userId) || (m.SenderId == userId && m.ReceiverId == currentUserId))
+        .ToListAsync();
+    return messages;
+}
+
+         */
+
+
 
         [HttpPost]
         public async Task<ActionResult<Message>> SendMessage(string recipientUserId, string messageContent)
