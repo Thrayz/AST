@@ -13,6 +13,8 @@ export class CrudServiceService {
   private apiUrl3 = 'https://localhost:7122/api/Challenges';
   private apiUrl4 = 'https://localhost:7122/api/Teams';
   private apiUrl5 = 'https://localhost:7122/api/SocialInteractions';
+  private apiUrl6 = 'https://localhost:7122/api/DailyInfo';
+  
 
 
 
@@ -319,6 +321,61 @@ export class CrudServiceService {
         })
       );
   }
+
+
+  getDailyInfoList(): Observable<any[]> {
+return this.http.get<any[]>(this.apiUrl6)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+addDailyInfo(dailyInfo: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl6, dailyInfo)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+}
+
+  deleteDailyInfo(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl6}/${id}`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  updateDailyInfo(dailyInfo: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl6}/${dailyInfo.id}`, dailyInfo)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+getDailyInfo(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl6}/${id}`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+}
+
+
+
+
 
   
 

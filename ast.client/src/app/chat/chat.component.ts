@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../_services/chat-service.service';
-import { SharedServiceService } from '../_services/shared-service.service'; 
 import { User } from '../Models/User';
-import { HttpClient } from '@angular/common/http'; 
+import { Observable } from 'rxjs';
+
+
+
 
 @Component({
   selector: 'app-chat',
@@ -13,20 +15,32 @@ export class ChatComponent implements OnInit {
   users: User[] = [];
   selectedUser!: User;
   newMessage!: string;
-  receivedMessages: { userId: string, message: string }[] = [];
+  receivedMessages: any[] = [];
+  privateChatMessages: any[] = [];
+  connectedUsers: any[] = []
 
-  constructor(private chatService: ChatService, private sharedService: SharedServiceService, private http: HttpClient) { } 
+  id: string = '';
+
+  constructor(private chatService: ChatService) { }
 
   ngOnInit(): void {
-    this.sharedService.getUsers().subscribe(users => { 
-      this.users = users;
-    });
 
+   
+     
+  
     
+    
+    this.fetchUsers();
+
+  
     this.chatService.getReceivedMessage().subscribe({
       next: (message) => {
-        this.receivedMessages.push(message);
-        console.log(this.receivedMessages.push(message));
+      
+        if (this.selectedUser && message.userId === this.selectedUser.id) {
+          this.privateChatMessages.push(message);
+        } else {
+          this.receivedMessages.push(message);
+        }
       },
       error: (error) => {
         console.error('Error receiving message:', error);
@@ -34,11 +48,22 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  selectUser(user: User) {
-    this.selectedUser = user;
+ 
+  fetchUsers() {
+  
   }
 
+ 
+  selectUser(user: User) {
+    this.selectedUser = user;
+    this.privateChatMessages = []; 
+    this.chatService.fetchOldMessages(user.id).subscribe(messages => {
+      this.privateChatMessages = messages;
+      console.log(this.privateChatMessages);
+    });
+  }
 
+ 
   sendMessage() {
     if (this.newMessage.trim() !== '' && this.selectedUser) {
       const token = localStorage.getItem('token') || ''; 
@@ -47,8 +72,7 @@ export class ChatComponent implements OnInit {
         .subscribe({
           next: () => {
             console.log('Message sent successfully');
-           // this.saveMessageToDatabase(this.selectedUser.id, this.newMessage);
-            this.newMessage = '';
+            this.newMessage = ''; 
           },
           error: (error) => {
             console.error('Error sending message:', error);
@@ -57,20 +81,49 @@ export class ChatComponent implements OnInit {
     }
   }
 
+ 
+  broadcastMessage() {
+    if (this.newMessage.trim() !== '') {
+      this.chatService.broadcastMessage(this.newMessage)
+        .subscribe({
+          next: () => {
+            console.log('Broadcast message sent successfully');
+            this.newMessage = ''; 
+          },
+          error: (error) => {
+            console.error('Error sending broadcast message:', error);
+          }
+        });
+    }
+  }
 
-  
-  saveMessageToDatabase(recipientUserId: string, messageContent: string) {
-    const url = '/api/message';
-    const body = { recipientUserId, messageContent };
 
-    this.http.post(url, body).subscribe(
-      (response) => {
-        console.log('Message saved to database:', response);
-      },
-      (error) => {
-        console.error('Error saving message to database:', error);
-      }
-    );
+  bullshit() {
+    this.chatService.getConnectedUsers().subscribe(users => {
+      this.connectedUsers = users;
+
+    });
+  }
+
+  getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+   
+    const parts = token.split('.');
+
+   
+    if (parts.length !== 3) {
+      return null;
+    }
+
+    
+    const payload = JSON.parse(atob(parts[1]));
+
+    const userId = payload["nameid"];
+    console.log(userId);
+    return userId;
   }
 
 }

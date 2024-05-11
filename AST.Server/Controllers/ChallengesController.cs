@@ -222,8 +222,33 @@ namespace AST.Server.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("GetChallengeActivities")]
+        public async Task<IEnumerable<ChallengeActivity>> getAllChallengeActivities()
+        {
+            return await _context.ChallengeActivities.ToListAsync();
+        }
 
-       
+        [HttpGet("GetallChallengeUsers")]
+        public async Task<IEnumerable<ChallengeUser>> getAllChallengeUsers()
+        {
+            return await _context.ChallengeUsers.ToListAsync();
+        }
+
+
+
+        [HttpGet("GetTeamUserT/{activityId}")]
+        public async Task<IEnumerable<ChallengeActivity>> GetChallengeActivities(int activityId)
+        {
+            return await _context.ChallengeActivities.Where(tu => tu.ActivityId == activityId).ToListAsync();
+        }
+
+        [HttpGet("GetTeamUserU/{userId}")]
+        public async Task<IEnumerable<ChallengeUser>> getUserTeams(string userId)
+        {
+            return await _context.ChallengeUsers.Where(tu => tu.UserId == userId).ToListAsync();
+        }
+
+
 
 
 

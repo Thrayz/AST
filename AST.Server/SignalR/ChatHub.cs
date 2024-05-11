@@ -1,11 +1,15 @@
 ﻿using AST.Server.Models;
+using Azure.Messaging;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using NuGet.Common;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AST.Server.SignalR
@@ -34,6 +38,7 @@ namespace AST.Server.SignalR
             string token = httpContext.Request.Query["access_token"];
             string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
+            Console.WriteLine(connectionId);
 
             if (!_userConnections.ContainsKey(userId))
             {
@@ -41,6 +46,22 @@ namespace AST.Server.SignalR
             }
 
             _userConnections[userId].Add(connectionId);
+
+            foreach (var tst in _userConnections)
+            {
+                if (tst.Key == userId)
+                {
+                    Console.WriteLine("User is still connected");
+                    Console.WriteLine("User id: " + tst.Key);
+                }
+                else
+                {
+                    Console.WriteLine("User is disconnected");
+                }
+               
+
+            }
+
 
             await base.OnConnectedAsync();
         }
@@ -62,36 +83,168 @@ namespace AST.Server.SignalR
                 }
             }
 
+            
+
             await base.OnDisconnectedAsync(exception);
         }
+       
+       public async Task SendMessageToUser(string recipientUserId, string messageContent, string token)
+       {
+           var senderUserId = GetUserIdFromToken(token);
+            Console.WriteLine("Sender user id: " + senderUserId);
+            await Clients.User(recipientUserId).SendAsync("ReceiveMessage", senderUserId, messageContent);
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent, recipientUserId);
 
-        public async Task SendMessageToUser(string recipientUserId, string messageContent, string token)
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
+
+
+            await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
+            var message = new Message
+           {
+               SenderId = senderUserId,
+               ReceiverId = recipientUserId,
+               Content = messageContent
+           };
+
+           _context.Messages.Add(message);
+           await _context.SaveChangesAsync();
+
+          
+
+
+            await Clients.User(recipientUserId).SendAsync("ReceiveMessage", senderUserId, messageContent);
+            Console.WriteLine("Message sent to recipient ", senderUserId, messageContent, recipientUserId);
+
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
+
+
+            await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
+        }
+
+        /*
+     public async Task BroadcastMessage(string message)
+     {
+         await Clients.All.SendAsync("ReceiveMessage", Context.UserIdentifier, message);
+     }
+       
+       public async Task SendMessageToUser(string recipientUserId, string messageContent)
+    {
+           var senderUserId = "eb04b5e3-49cd-477a-94d9-a17317e604b4";
+           var recipientUserId1 = "706f458a-6bcb-44ec-af6d-4bb35a4acd9f";
+
+        var message = new Message
+        {
+            SenderId = senderUserId,
+            ReceiverId = recipientUserId1,
+            Content = messageContent
+        };
+
+           await Clients.User("706f458a-6bcb-44ec-af6d-4bb35a4acd9f").SendAsync("ReceiveMessage", senderUserId, messageContent);
+           await Clients.Users(senderUserId, recipientUserId1).SendAsync("ReceiveMessage", senderUserId, messageContent);
+
+           Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
+
+
+           _context.Messages.Add(message);
+        await _context.SaveChangesAsync();
+
+
+
+
+        await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
+    }
+        */
+
+
+
+        public async Task SendPrivateMessage()
+        {
+            var senderUserId = "706f458a-6bcb-44ec-af6d-4bb35a4acd9f";
+            var recipientUserId = "eb04b5e3-49cd-477a-94d9-a17317e604b4";
+            var message = "Hello";
+            
+            foreach (var userId in _userConnections.Keys)
+            {
+                await Clients.User(userId).SendAsync("ReceivePrivateMessage", recipientUserId, message);
+                await Clients.Others.SendAsync("ReceivePrivateMessage", recipientUserId, message);
+            }
+
+            Console.WriteLine("Sender user id: " + senderUserId);
+            await Clients.User(senderUserId).SendAsync("ReceivePrivateMessage",recipientUserId, message );
+        }
+
+        public async Task BroadcastMessage(string messageContent, string token)
         {
             var senderUserId = GetUserIdFromToken(token);
+           
+            var s = _userConnections.ContainsKey(senderUserId);
+            Console.WriteLine($"Broadcast Message: {messageContent}");
+            Console.WriteLine(s);
+            Console.WriteLine("Sender user id: " + senderUserId);
+            var content = messageContent;
+            var recipientUserId = "706f458a-6bcb-44ec-af6d-4bb35a4acd9f";
+            var cId = "";
+
 
             var message = new Message
             {
                 SenderId = senderUserId,
-                ReceiverId = recipientUserId,
-                Content = messageContent
+                Content = content
+
             };
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
-
-            if (_userConnections.ContainsKey(recipientUserId))
+            foreach (var tst in _userConnections)
             {
-                foreach (var connectionId in _userConnections[recipientUserId])
+                if (tst.Key == recipientUserId)
                 {
-                    await Clients.Client(connectionId).SendAsync("ReceiveMessage", senderUserId, messageContent);
+                    Console.WriteLine("User is still connected");
+                    Console.WriteLine("User id: " + tst.Key);
+                    cId = tst.Value.First();
                 }
+                else
+                {
+                    Console.WriteLine("User is disconnected");
+                }
+
+
             }
+
+            await Clients.Client(cId).SendAsync("ReceiveMessage", senderUserId, messageContent);
+            await Clients.Others.SendAsync("ReceiveMessage", senderUserId, messageContent);
+
+
+            Console.WriteLine("Message sent to all", senderUserId, messageContent);
+            await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
         }
 
 
-        public async Task BroadcastMessage(string message)
+
+      
+
+        public async Task GetConnectedUsers()
         {
-            await Clients.All.SendAsync("ReceiveMessage", Context.UserIdentifier, message);
+            var connectedUsers = new List<string>();
+
+            foreach (var userId in _userConnections.Keys)
+            {
+                connectedUsers.Add(userId);
+                Console.WriteLine("Connected user: " + userId);
+            }
+            var connectedUsersJson = JsonConvert.SerializeObject(connectedUsers);
+
+            await Clients.Caller.SendAsync("ReceiveConnectedUsers", connectedUsersJson);
+
+            Console.WriteLine("Connected users sent to client");
+            Console.WriteLine(connectedUsersJson);
         }
+
+
+        
     }
+
+
+    
+
 }
