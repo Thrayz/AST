@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using AST.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using AST.Server.Models;
 
 namespace AST.Server.Controllers
 {
-    
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -23,7 +24,8 @@ namespace AST.Server.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        private string GenerateJwtToken(IdentityUser user)
+
+        private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("testTokentest123zzzzzzzzzzzzzzzzzzzzzzz");
@@ -31,9 +33,9 @@ namespace AST.Server.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Role, "User")
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -42,8 +44,7 @@ namespace AST.Server.Controllers
             return tokenHandler.WriteToken(token);
         }
 
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
             var user = new User { UserName = model.UserName, Email = model.Email, PhoneNumber = model.PhoneNumber };
@@ -51,23 +52,18 @@ namespace AST.Server.Controllers
 
             if (result.Succeeded)
             {
+             
+                await _userManager.AddToRoleAsync(user, "User");
+
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return Ok(new { message = "Registered successfully" });
+                var token = GenerateJwtToken(user);
+                return Ok(new { message = "Registered successfully", token });
+            }
 
-            }
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    Console.WriteLine($"Code: {error.Code}, Description: {error.Description}");
-                }
-            }
             return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
-
         }
 
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -75,47 +71,28 @@ namespace AST.Server.Controllers
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
-                var token = GenerateJwtToken(user); 
-
-                return Ok(new { message = "Login successful", token = token });
-            }
-
-            if (result.IsLockedOut)
-            {
-                return BadRequest(new { message = "Account is locked out" });
-            }
-
-            if (result.IsNotAllowed)
-            {
-                return BadRequest(new { message = "Not allowed to sign in" });
-            }
-
-            if (result.RequiresTwoFactor)
-            {
-                return BadRequest(new { message = "Two-factor authentication required" });
+                var token = GenerateJwtToken(user);
+                return Ok(new { message = "Login successful", token });
             }
 
             return BadRequest(new { message = "Invalid login attempt" });
         }
 
-
-        [HttpPost]
-        [Route("logout")]
+        [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Ok("Logged out successfully");
+            return Ok(new { message = "Logged out successfully" });
         }
 
-        [HttpPost]
-        [Route("resetpassword")]
+        [HttpPost("resetpassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 
-                return Ok("Reset password email sent");
+                return NotFound(new { message = "User not found" });
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -123,17 +100,16 @@ namespace AST.Server.Controllers
 
             if (result.Succeeded)
             {
-                return Ok("Password reset successful");
+                return Ok(new { message = "Password reset successful" });
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
         }
 
-        [HttpGet]
-        [Route("users")]
+        [HttpGet("users")]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync(); 
+            var users = await _userManager.Users.ToListAsync();
             return Ok(users);
         }
     }
@@ -159,4 +135,3 @@ namespace AST.Server.Controllers
         public string NewPassword { get; set; }
     }
 }
-
