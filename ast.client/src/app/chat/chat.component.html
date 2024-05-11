@@ -13,7 +13,7 @@
 
     <div *ngIf="selectedUser" class="private-chat">
       <div *ngFor="let message of privateChatMessages" [ngClass]="{ 'message-right': message.userId === 'you', 'message-left': message.userId !== 'you' }">
-        <span class="sender">{{ message.userId === 'you' ? 'You' : 'Not You' }}:</span>
+        <span class="sender">{{ message.userId === id ? 'You' : 'Not You' }}:</span>
         <span class="text">{{ message.content }}</span>
       </div>
     </div>
@@ -26,3 +26,5 @@
   </div>
 </div>
 <button (click)="bullshit()">bullshit typa shit </button>
+
+<button (click)="getUserIdFromToken()">fuuuuuuuuuuuuuuuuuuuuuuck</button>

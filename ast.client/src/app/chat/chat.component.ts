@@ -3,6 +3,9 @@ import { ChatService } from '../_services/chat-service.service';
 import { User } from '../Models/User';
 import { Observable } from 'rxjs';
 
+
+
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -16,11 +19,15 @@ export class ChatComponent implements OnInit {
   privateChatMessages: any[] = [];
   connectedUsers: any[] = []
 
+  id: string = '';
+
   constructor(private chatService: ChatService) { }
 
   ngOnInit(): void {
 
-
+   
+     
+  
     
     
     this.fetchUsers();
@@ -61,7 +68,7 @@ export class ChatComponent implements OnInit {
     if (this.newMessage.trim() !== '' && this.selectedUser) {
       const token = localStorage.getItem('token') || ''; 
 
-      this.chatService.sendMessage("706f458a-6bcb-44ec-af6d-4bb35a4acd9f", this.newMessage)
+      this.chatService.sendMessage(this.selectedUser.id, this.newMessage, token)
         .subscribe({
           next: () => {
             console.log('Message sent successfully');
@@ -97,4 +104,26 @@ export class ChatComponent implements OnInit {
 
     });
   }
+
+  getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+   
+    const parts = token.split('.');
+
+   
+    if (parts.length !== 3) {
+      return null;
+    }
+
+    
+    const payload = JSON.parse(atob(parts[1]));
+
+    const userId = payload["nameid"];
+    console.log(userId);
+    return userId;
+  }
+
 }
