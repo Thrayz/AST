@@ -189,7 +189,11 @@ namespace AST.Server.Controllers
             return _context.Challenges.Any(e => e.Id == id);
         }
 
+        public class ChallengeUserBindingModel
+        {
+            public int ChallengeId { get; set; }
+            public string UserId { get; set; }
+        }
 
-      
     }
 }
