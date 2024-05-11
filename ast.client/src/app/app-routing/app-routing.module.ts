@@ -9,9 +9,11 @@ import { PrivateChatComponent } from '../private-chat/private-chat.component';
 import { DailyInfoCreateComponent } from '../daily-info/daily-info-create/daily-info-create.component';
 import { DailyInfoListComponent } from '../daily-info/daily-info-list/daily-info-list.component';
 import { DailyInfoUpdateComponent } from '../daily-info/daily-info-update/daily-info-update.component';
-import { HeaderComponent } from '../header/header.component';
-import { AppComponent } from '../app.component';
+
 import { HomeComponent } from '../home/home.component';
+import { ActivityUpdateComponent } from '../Activity/activity-update/activity-update.component';
+import { ActivityCreateComponent } from '../Activity/activity-create/activity-create.component';
+
 
 
 const routes: Routes = [
@@ -20,11 +22,15 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'users', component: UserListComponent },
-  { path: 'Activities', component: ActivityListComponent },
+  { path: 'activity-list', component: ActivityListComponent },
   { path: 'private-chat', component: PrivateChatComponent },
   { path: 'daily-info-create', component: DailyInfoCreateComponent },
 { path: 'daily-info-list', component: DailyInfoListComponent },
-  { path: 'daily-info-update/:id', component: DailyInfoUpdateComponent }
+  { path: 'daily-info-update/:id', component: DailyInfoUpdateComponent },
+
+  { path: 'home', component: HomeComponent },
+  { path: 'activity-update/:id', component: ActivityUpdateComponent },
+  { path: 'activity-create', component: ActivityCreateComponent }
 
 ];
 

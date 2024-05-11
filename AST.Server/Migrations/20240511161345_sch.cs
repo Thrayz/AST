@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AST.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class fixes : Migration
+    public partial class sch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -88,8 +88,7 @@ namespace AST.Server.Migrations
                     CaloriesBurned = table.Column<float>(type: "real", nullable: true),
                     Pace = table.Column<float>(type: "real", nullable: true),
                     RouteMap = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TrainingPlanId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -254,8 +253,7 @@ namespace AST.Server.Migrations
                     Weight = table.Column<float>(type: "real", nullable: true),
                     caloriesIntake = table.Column<float>(type: "real", nullable: true),
                     ActivityId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -266,8 +264,8 @@ namespace AST.Server.Migrations
                         principalTable: "Activities",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_DailyInformations_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_DailyInformations_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
@@ -458,9 +456,9 @@ namespace AST.Server.Migrations
                 column: "TrainingPlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_UserId1",
+                name: "IX_Activities_UserId",
                 table: "Activities",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -527,9 +525,9 @@ namespace AST.Server.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DailyInformations_UserId1",
+                name: "IX_DailyInformations_UserId",
                 table: "DailyInformations",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Goals_UserId1",
@@ -597,9 +595,9 @@ namespace AST.Server.Migrations
                 column: "UserId1");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Activities_AspNetUsers_UserId1",
+                name: "FK_Activities_AspNetUsers_UserId",
                 table: "Activities",
-                column: "UserId1",
+                column: "UserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
 

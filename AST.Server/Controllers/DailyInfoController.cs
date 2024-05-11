@@ -100,5 +100,18 @@ namespace AST.Server.Controllers
             return NoContent();
         }
 
+
+
+        //get daily info by user id
+        [HttpGet("GetDailyInfoByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<DailyInformation>>> GetDailyInfoByUserId(string userId)
+        {
+            return await _context.DailyInformations.Where(x => x.UserId == userId).ToListAsync();
+        }
+
+
+
     }
+
+    
 }

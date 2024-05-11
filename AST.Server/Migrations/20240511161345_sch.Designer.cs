@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AST.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240507154517_test1")]
-    partial class test1
+    [Migration("20240511161345_sch")]
+    partial class sch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -56,17 +56,14 @@ namespace AST.Server.Migrations
                     b.Property<int?>("TrainingPlanId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TrainingPlanId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Activities");
                 });
@@ -147,10 +144,7 @@ namespace AST.Server.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<float?>("Weight")
@@ -163,7 +157,7 @@ namespace AST.Server.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("DailyInformations");
                 });
@@ -608,7 +602,7 @@ namespace AST.Server.Migrations
 
                     b.HasOne("AST.Server.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -663,7 +657,7 @@ namespace AST.Server.Migrations
 
                     b.HasOne("AST.Server.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Activity");
 
