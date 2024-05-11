@@ -38,6 +38,7 @@ namespace AST.Server.SignalR
             string token = httpContext.Request.Query["access_token"];
             string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
+            Console.WriteLine(connectionId);
 
             if (!_userConnections.ContainsKey(userId))
             {
@@ -45,6 +46,22 @@ namespace AST.Server.SignalR
             }
 
             _userConnections[userId].Add(connectionId);
+
+            foreach (var tst in _userConnections)
+            {
+                if (tst.Key == userId)
+                {
+                    Console.WriteLine("User is still connected");
+                    Console.WriteLine("User id: " + tst.Key);
+                }
+                else
+                {
+                    Console.WriteLine("User is disconnected");
+                }
+               
+
+            }
+
 
             await base.OnConnectedAsync();
         }
@@ -65,6 +82,8 @@ namespace AST.Server.SignalR
                     _userConnections.Remove(userId);
                 }
             }
+
+            
 
             await base.OnDisconnectedAsync(exception);
         }
@@ -163,6 +182,8 @@ namespace AST.Server.SignalR
             Console.WriteLine(s);
             Console.WriteLine("Sender user id: " + senderUserId);
             var content = messageContent;
+            var recipientUserId = "706f458a-6bcb-44ec-af6d-4bb35a4acd9f";
+            var cId = "";
 
 
             var message = new Message
@@ -174,9 +195,25 @@ namespace AST.Server.SignalR
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
+            foreach (var tst in _userConnections)
+            {
+                if (tst.Key == recipientUserId)
+                {
+                    Console.WriteLine("User is still connected");
+                    Console.WriteLine("User id: " + tst.Key);
+                    cId = tst.Value.First();
+                }
+                else
+                {
+                    Console.WriteLine("User is disconnected");
+                }
 
-          
+
+            }
+
+            await Clients.Client(cId).SendAsync("ReceiveMessage", senderUserId, messageContent);
             await Clients.Others.SendAsync("ReceiveMessage", senderUserId, messageContent);
+
 
             Console.WriteLine("Message sent to all", senderUserId, messageContent);
             await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
