@@ -23,6 +23,7 @@ import { GoalUpdateComponent } from './Goal/goal-update/goal-update.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { FooterComponent } from './footer/footer.component';
     GoalUpdateComponent,
     UserAccountComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,2 @@
 C:\Users\USER\source\repos\AST\ast.client\obj\Debug\ast.client.esproj.CoreCompileInputs.cache
+D:\GLSI\semestre 2\projet\AST\ast.client\obj\Debug\ast.client.esproj.CoreCompileInputs.cache
