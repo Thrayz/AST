@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>Daily Info List</h2>
+  <button routerLink="/daily-info-create">Create New</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Weight</th>
+        <th>Calories Intake</th>
+        <th>Activity ID</th>
+        <th>User ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let info of dailyInfos">
+        <td>{{info.id}}</td>
+        <td>{{info.date}}</td>
+        <td>{{info.weight}}</td>
+        <td>{{info.caloriesIntake}}</td>
+        <td>{{info.activityId}}</td>
+        <td>{{info.userId}}</td>
+        <td>
+          <button routerLink="/daily-info-update/{{info.id}}">Update</button>
+          <button (click)="deleteDailyInfo(info.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

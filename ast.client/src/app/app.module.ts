@@ -26,6 +26,13 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
+import { DailyInfoCreateComponent } from './daily-info/daily-info-create/daily-info-create.component';
+import { DailyInfoUpdateComponent } from './daily-info/daily-info-update/daily-info-update.component';
+import { DailyInfoListComponent } from './daily-info/daily-info-list/daily-info-list.component';
+import { UserchallengelistComponent } from './challenge/userchallengelist/userchallengelist.component';
+import { UserGoalListComponent } from './goal/user-goal-list/user-goal-list.component';
+import { UserActivityListComponent } from './activity/user-activity-list/user-activity-list.component';
+import { UserDashboardComponent } from './Dashboard/user-dashboard/user-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +56,14 @@ import { JoinRoomComponent } from './join-room/join-room.component';
     FooterComponent,
     HomeComponent,
     SideNavComponent,
-    JoinRoomComponent
+    JoinRoomComponent,
+    DailyInfoCreateComponent,
+    DailyInfoUpdateComponent,
+    DailyInfoListComponent,
+    UserchallengelistComponent,
+    UserGoalListComponent,
+    UserActivityListComponent,
+    UserDashboardComponent
   ],
   imports: [
     BrowserModule,

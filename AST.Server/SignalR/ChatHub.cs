@@ -93,7 +93,7 @@ namespace AST.Server.SignalR
            var senderUserId = GetUserIdFromToken(token);
             Console.WriteLine("Sender user id: " + senderUserId);
             await Clients.User(recipientUserId).SendAsync("ReceiveMessage", senderUserId, messageContent);
-            Console.WriteLine("Message sent to recipient 3aaaaaaaaaaaaaaaaaaaaaaaaaaaaaasba", senderUserId, messageContent, recipientUserId);
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent, recipientUserId);
 
             Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
 
@@ -113,7 +113,7 @@ namespace AST.Server.SignalR
 
 
             await Clients.User(recipientUserId).SendAsync("ReceiveMessage", senderUserId, messageContent);
-            Console.WriteLine("Message sent to recipient 3aaaaaaaaaaaaaaaaaaaaaaaaaaaaaasba", senderUserId, messageContent, recipientUserId);
+            Console.WriteLine("Message sent to recipient ", senderUserId, messageContent, recipientUserId);
 
             Console.WriteLine("Message sent to recipient", senderUserId, messageContent);
 
