@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AST.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240511185944_sch")]
-    partial class sch
+    [Migration("20240511223941_tch")]
+    partial class tch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,20 +110,23 @@ namespace AST.Server.Migrations
 
             modelBuilder.Entity("AST.Server.Models.ChallengeUser", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int?>("ChallengeId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("Id");
 
-                    b.HasKey("ChallengeId", "UserId");
+                    b.HasIndex("ChallengeId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("ChallengeUsers");
                 });
@@ -333,20 +336,23 @@ namespace AST.Server.Migrations
 
             modelBuilder.Entity("AST.Server.Models.TeamUser", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("Id");
 
-                    b.HasKey("TeamId", "UserId");
+                    b.HasIndex("TeamId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("TeamUsers");
                 });
@@ -609,19 +615,11 @@ namespace AST.Server.Migrations
                 {
                     b.HasOne("AST.Server.Models.Challenge", "Challenge")
                         .WithMany("ChallengeUsers")
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("AST.Server.Models.User", null)
-                        .WithMany("ChallengeUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ChallengeId");
 
                     b.HasOne("AST.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithMany("ChallengeUsers")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Challenge");
 
@@ -713,19 +711,11 @@ namespace AST.Server.Migrations
                 {
                     b.HasOne("AST.Server.Models.Team", "Team")
                         .WithMany("Users")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("AST.Server.Models.User", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("TeamId");
 
                     b.HasOne("AST.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithMany("Teams")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Team");
 

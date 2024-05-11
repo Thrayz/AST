@@ -32,20 +32,31 @@ export class ChallengeListComponent implements OnInit {
     this.router.navigate(['/challenge-create']);
   }
 
-  joinChallenge(challengeId: number, userId: string) {
-    this.crudService.addUserToChallenge(challengeId, userId).subscribe(() => {
+  async joinChallenge(challengeId: any) {
+    try {
+      const challengeUser = {
+        userId: "a86ccff4-37e7-485a-aa65-14c5e765a4be", 
+        challengeId: challengeId
+      };
 
-      console.log('User joined challenge');
-    }, error => {
-      console.log(error);
-    });
+      await this.crudService.addUserToChallenge(challengeUser);
+      console.log('User added to challenge');
+     
+    } catch (error) {
+      console.error('Failed to add user to challenge:', error);
+  
+    }
   }
 
-  leaveChallenge(challengeId: number, userId: string) {
-    this.crudService.removeUserFromChallenge(challengeId, userId).subscribe(() => {
-      console.log('User left challenge');
-    }, error => {
-      console.log(error);
-    });
+  async leaveChallenge(challengeId: any, userId: any) {
+    try {
+      await this.crudService.removeUserFromChallenge(challengeId, userId);
+      console.log('User removed from challenge');
+    
+    } catch (error) {
+      console.error('Failed to remove user from challenge:', error);
+  
+    }
   }
+
 }

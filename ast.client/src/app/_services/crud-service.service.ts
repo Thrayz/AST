@@ -372,14 +372,16 @@ getDailyInfo(id: number): Observable<any> {
         })
       );
 }
-  addUserToChallenge(challengeId: number, userId: string): Observable<any> {
-    const body = { challengeId, userId };
-    return this.http.post('https://localhost:7122/api/challenges/addUserToChallenge', body);
+  async addUserToChallenge(challengeUser: any) {
+    try {
+      return this.http.post(`${this.apiUrl3}/addUserToChallenge`, challengeUser).toPromise();
+    } catch (error: any) {
+      throw new Error('Failed to add user to challenge: ' + error.message);
+    }
   }
 
-  removeUserFromChallenge(challengeId: number, userId: string): Observable<any> {
-    const body = { challengeId, userId };
-    return this.http.post('https://localhost:7122/api/challenges/removeUserFromChallenge', body);
+  async removeUserFromChallenge(challengeId: any, userId: any) {
+    return this.http.post(`${this.apiUrl3}/removeUserFromChallenge`, { challengeId, userId }).toPromise();
   }
 
 

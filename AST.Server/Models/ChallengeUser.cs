@@ -2,6 +2,7 @@
 {
     public class ChallengeUser
     {
+        public int Id { get; set; }
         public int? ChallengeId { get; set; }
         public Challenge? Challenge { get; set; }
 

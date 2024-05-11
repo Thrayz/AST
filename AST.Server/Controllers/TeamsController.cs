@@ -77,36 +77,25 @@ namespace AST.Server.Controllers
 
 
         [HttpPost("addUserToTeam")]
-        public async Task<ActionResult<Team>> AddUserToTeam(int teamId, string userId)
+        public async Task<ActionResult<Team>> AddUserToTeam(TeamUser teamUser)
         {
-            try
+            _context.TeamUsers.Add(teamUser);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetTeams), new { id = teamUser.Id }, teamUser);
+           
+        }
+
+        [HttpDelete("removeUserFromTeam")]
+        public async Task<ActionResult<TeamUser>> RemoveUserFromTeam(int teamId, string userId)
+        {
+            var teamUser = await _context.TeamUsers.Where(tu => tu.TeamId == teamId && tu.UserId == userId).FirstOrDefaultAsync();
+            if (teamUser == null)
             {
-                var team = await _context.Teams.Include(t => t.Users).FirstOrDefaultAsync(t => t.Id == teamId);
-                var user = await _context.Users.Include(u => u.Teams).FirstOrDefaultAsync(u => u.Id == userId);
-
-                if (team == null || user == null)
-                {
-                    return NotFound();
-                }
-
-                var teamUser = new TeamUser { TeamId = teamId, Team=team, User=user, UserId = userId };
-                team.Users.Add(teamUser);
-                user.Teams.Add(teamUser);
-
-                await _context.SaveChangesAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-                var teamJson = JsonSerializer.Serialize(team, options);
-
-                return Content(teamJson, "application/json");
+                return NotFound();
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            _context.TeamUsers.Remove(teamUser);
+            await _context.SaveChangesAsync();
+            return teamUser;
         }
 
         [HttpGet("GetTeamUser")]
@@ -126,6 +115,7 @@ namespace AST.Server.Controllers
         {
             return await _context.TeamUsers.Where(tu => tu.UserId == userId).ToListAsync();
         }
+
 
 
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AST.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class sch : Migration
+    public partial class tch : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -197,30 +197,24 @@ namespace AST.Server.Migrations
                 name: "ChallengeUsers",
                 columns: table => new
                 {
-                    ChallengeId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChallengeId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChallengeUsers", x => new { x.ChallengeId, x.UserId });
+                    table.PrimaryKey("PK_ChallengeUsers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ChallengeUsers_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ChallengeUsers_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ChallengeUsers_Challenges_ChallengeId",
                         column: x => x.ChallengeId,
                         principalTable: "Challenges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -328,30 +322,24 @@ namespace AST.Server.Migrations
                 name: "TeamUsers",
                 columns: table => new
                 {
-                    TeamId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TeamId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamUsers", x => new { x.TeamId, x.UserId });
+                    table.PrimaryKey("PK_TeamUsers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TeamUsers_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TeamUsers_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TeamUsers_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -485,14 +473,14 @@ namespace AST.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChallengeUsers_ChallengeId",
+                table: "ChallengeUsers",
+                column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChallengeUsers_UserId",
                 table: "ChallengeUsers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChallengeUsers_UserId1",
-                table: "ChallengeUsers",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DailyInformations_ActivityId",
@@ -550,14 +538,14 @@ namespace AST.Server.Migrations
                 column: "TargetUserId1");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeamUsers_TeamId",
+                table: "TeamUsers",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeamUsers_UserId",
                 table: "TeamUsers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamUsers_UserId1",
-                table: "TeamUsers",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TrainingPlans_GoalId",

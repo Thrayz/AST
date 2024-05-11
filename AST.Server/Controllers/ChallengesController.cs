@@ -94,75 +94,34 @@ namespace AST.Server.Controllers
             return NoContent();
         }
         [HttpPost("addUserToChallenge")]
-        public async Task<ActionResult<ChallengeUser>> AddUserToChallenge(int challengeId, string userId)
+        public async Task<ActionResult<ChallengeUser>> AddUserToChallenge(ChallengeUser challengeUser)
         {
-            try
-            {
-                var challenge = await _context.Challenges.Include(c => c.ChallengeUsers).FirstOrDefaultAsync(c => c.Id == challengeId);
-                var user = await _context.Users.Include(u => u.ChallengeUsers).FirstOrDefaultAsync(u => u.Id == userId);
+            _context.ChallengeUsers.Add(challengeUser);
+            await _context.SaveChangesAsync();
 
-                if (challenge == null || user == null)
-                {
-                    return NotFound();
-                }
-
-                var challengeUser = new ChallengeUser { ChallengeId = challengeId, Challenge = challenge, User = user, UserId = userId };
-                challenge.ChallengeUsers.Add(challengeUser);
-                user.ChallengeUsers.Add(challengeUser);
-
-                await _context.SaveChangesAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-                var challengeUserJson = JsonSerializer.Serialize(challengeUser, options);
-
-                return Content(challengeUserJson, "application/json");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+          
+            return StatusCode(201);
         }
 
 
-
-        [HttpPost("removeUserFromChallenge")]
-        public async Task<ActionResult<ChallengeUser>> RemoveUserFromChallenge(int challengeId, string userId)
+        [HttpDelete("removeUserFromChallenge/{id}")]
+        public async Task<ActionResult<ChallengeUser>> RemoveUserFromChallenge(int id)
         {
-            try
+            var challengeUser = await _context.ChallengeUsers.FindAsync(id);
+            if (challengeUser == null)
             {
-                var challenge = await _context.Challenges.Include(c => c.ChallengeUsers).FirstOrDefaultAsync(c => c.Id == challengeId);
-                var user = await _context.Users.Include(u => u.ChallengeUsers).FirstOrDefaultAsync(u => u.Id == userId);
-
-                if (challenge == null || user == null)
-                {
-                    return NotFound();
-                }
-
-                var challengeUser = challenge.ChallengeUsers.FirstOrDefault(cu => cu.UserId == userId);
-                challenge.ChallengeUsers.Remove(challengeUser);
-                user.ChallengeUsers.Remove(challengeUser);
-
-                await _context.SaveChangesAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-                var challengeUserJson = JsonSerializer.Serialize(challengeUser, options);
-
-                return Content(challengeUserJson, "application/json");
+                return NotFound();
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+
+            _context.ChallengeUsers.Remove(challengeUser);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+
+          
         }
 
-       
-        
+
 
         [HttpGet("GetallChallengeUsers")]
         public async Task<IEnumerable<ChallengeUser>> getAllChallengeUsers()
