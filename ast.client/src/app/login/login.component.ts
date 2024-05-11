@@ -14,6 +14,24 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     
   }
+  showModal: boolean = false;
+  showLoginForm: boolean = true;
+
+  showLogin() {
+    this.showLoginForm = true;
+  }
+
+  showRegister() {
+    this.showLoginForm = false;
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
 
   login(email: string, password: string, rememberMe: boolean) {
     console.log("Login method called"); 

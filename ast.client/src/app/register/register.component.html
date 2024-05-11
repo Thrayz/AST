@@ -1,28 +1,41 @@
-<div class="container d-flex justify-content-center align-items-center vh-100 text-center text-white">
-  <div class="animated fadeInDown login-form card" style="max-width: 30rem;">
-    <div class="card-body">
-      <form (submit)="$event.preventDefault(); register(email.value,username.value, phoneNumber.value, password.value)" class="form-group">
-        <div class="form-floating mb-3">
-          
-          <input type="email" #email required placeholder="Email" id="email" class="form-control">
-        </div>
-        <div class="form-floating mb-3">
-          
-          <input type="text" #username required placeholder="Username" id="username" class="form-control">
-        </div>
-        <div class="form-floating mb-3">
-          
-          <input type="text" #phoneNumber required placeholder="Phone Number" id="phoneNumber" class="form-control">
-        </div>
-        <div class="form-floating mb-3">
-         
-          <input type="password" #password required placeholder="Password" id="password" class="form-control">
-        </div>
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
-      </form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="register.component.css" rel="stylesheet">
+</head>
+
+<body>
+  <video class="bg-video" playsinline autoplay muted loop>
+    <source src="assets\4327191-uhd_2160_4096_25fps.mp4" type="video/mp4">
+  </video>
+  <div class="container d-flex justify-content-center align-items-center vh-100 text-center text-white">
+    <div class="animated fadeInDown login-form card" style="max-width: 30rem;">
+      <div class="card-body">
+        <form (submit)="$event.preventDefault(); register(email.value,username.value, phoneNumber.value, password.value)" class="form-group">
+          <div class="form-floating mb-3">
+
+            <input type="email" #email required placeholder="Email" id="email" class="form-control">
+          </div>
+          <div class="form-floating mb-3">
+
+            <input type="text" #username required placeholder="Username" id="username" class="form-control">
+          </div>
+          <div class="form-floating mb-3">
+
+            <input type="text" #phoneNumber required placeholder="Phone Number" id="phoneNumber" class="form-control">
+          </div>
+          <div class="form-floating mb-3">
+
+            <input type="password" #password required placeholder="Password" id="password" class="form-control">
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+          <a routerLink="" class="btn btn-link">Home</a>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
-</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+</body>

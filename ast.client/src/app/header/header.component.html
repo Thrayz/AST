@@ -1,6 +1,0 @@
-<ul>
-    <li><a *ngIf="!sharedService.isAuthenticated()" routerLink="/login" routerLinkActive="active">Login</a></li>
-    <li><a *ngIf="!sharedService.isAuthenticated()" routerLink="/register" routerLinkActive="active">Register</a></li>
-    <li><a *ngIf="sharedService.isAuthenticated()"style="cursor: pointer;" routerLink="/login" (click)="sharedService.logout()" routerLinkActive="active">Logout</a> </li>
-    <li><a *ngIf="sharedService.isAuthenticated()" routerLink="/Activities" routerLinkActive="active">activities</a></li>
-</ul>

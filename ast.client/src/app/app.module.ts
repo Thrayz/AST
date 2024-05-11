@@ -34,6 +34,7 @@ import { UserGoalListComponent } from './goal/user-goal-list/user-goal-list.comp
 import { UserActivityListComponent } from './activity/user-activity-list/user-activity-list.component';
 import { UserDashboardComponent } from './Dashboard/user-dashboard/user-dashboard.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

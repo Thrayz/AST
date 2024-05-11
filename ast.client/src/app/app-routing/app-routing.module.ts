@@ -9,11 +9,15 @@ import { PrivateChatComponent } from '../private-chat/private-chat.component';
 import { DailyInfoCreateComponent } from '../daily-info/daily-info-create/daily-info-create.component';
 import { DailyInfoListComponent } from '../daily-info/daily-info-list/daily-info-list.component';
 import { DailyInfoUpdateComponent } from '../daily-info/daily-info-update/daily-info-update.component';
+import { HeaderComponent } from '../header/header.component';
+import { AppComponent } from '../app.component';
+import { HomeComponent } from '../home/home.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'users', component: UserListComponent },
   { path: 'Activities', component: ActivityListComponent },
