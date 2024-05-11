@@ -20,29 +20,11 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<DailyInformation> DailyInformations { get; set; }
     public DbSet<ChallengeUser> ChallengeUsers { get; set; }
     public DbSet<TeamUser> TeamUsers { get; set; }
-    public DbSet<ChallengeActivity> ChallengeActivities { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-
-        modelBuilder.Entity<ChallengeActivity>()
-            .HasKey(ca => new { ca.ChallengeId, ca.ActivityId });
-
-        modelBuilder.Entity<ChallengeActivity>()
-            .HasOne(ca => ca.Challenge)
-            .WithMany(c => c.ChallengeActivities)
-            .HasForeignKey(ca => ca.ChallengeId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<ChallengeActivity>()
-            .HasOne(ca => ca.Activity)
-            .WithMany(a => a.ChallengeActivities)
-            .HasForeignKey(ca => ca.ActivityId)
-            .OnDelete(DeleteBehavior.Restrict);
-
 
         modelBuilder.Entity<ChallengeUser>()
             .HasKey(cu => new { cu.ChallengeId, cu.UserId });
@@ -75,6 +57,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
             .HasForeignKey(tu => tu.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+
+        
     
        
     }

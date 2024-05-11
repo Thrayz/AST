@@ -9,10 +9,13 @@ import { PrivateChatComponent } from '../private-chat/private-chat.component';
 import { DailyInfoCreateComponent } from '../daily-info/daily-info-create/daily-info-create.component';
 import { DailyInfoListComponent } from '../daily-info/daily-info-list/daily-info-list.component';
 import { DailyInfoUpdateComponent } from '../daily-info/daily-info-update/daily-info-update.component';
-
 import { HomeComponent } from '../home/home.component';
 import { ActivityUpdateComponent } from '../Activity/activity-update/activity-update.component';
 import { ActivityCreateComponent } from '../Activity/activity-create/activity-create.component';
+import { ChallengeListComponent } from '../Challenge/challenge-list/challenge-list.component';
+import { ChallengeCreateComponent } from '../Challenge/challenge-create/challenge-create.component';
+import { ChallengeUpdateComponent } from '../Challenge/challenge-update/challenge-update.component';
+
 
 
 
@@ -27,6 +30,9 @@ const routes: Routes = [
   { path: 'daily-info-create', component: DailyInfoCreateComponent },
 { path: 'daily-info-list', component: DailyInfoListComponent },
   { path: 'daily-info-update/:id', component: DailyInfoUpdateComponent },
+{ path: 'challenge-list', component: ChallengeListComponent },
+  { path: 'challenge-create', component: ChallengeCreateComponent },
+  { path: 'challenge-update/:id', component: ChallengeUpdateComponent },
 
   { path: 'home', component: HomeComponent },
   { path: 'activity-update/:id', component: ActivityUpdateComponent },

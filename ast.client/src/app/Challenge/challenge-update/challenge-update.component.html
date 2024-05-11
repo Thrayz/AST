@@ -1,1 +1,31 @@
-<p>challenge-update works!</p>
+<form (ngSubmit)="updateChallenge()">
+  <label>
+    Challenge Name:
+    <input [(ngModel)]="challenge.challengeName" name="challengeName">
+  </label>
+  <label>
+    Challenge Description:
+    <input [(ngModel)]="challenge.challengeDescription" name="challengeDescription">
+  </label>
+  <label>
+    Challenge Type:
+    <input [(ngModel)]="challenge.challengeType" name="challengeType">
+  </label>
+  <label>
+    Target:
+    <input [(ngModel)]="challenge.target" name="target">
+  </label>
+  <label>
+    Target Reached:
+    <input [(ngModel)]="challenge.targetReached" name="targetReached" type="checkbox">
+  </label>
+  <label>
+    Start Date:
+    <input [(ngModel)]="challenge.startDate" name="startDate" type="date">
+  </label>
+  <label>
+    End Date:
+    <input [(ngModel)]="challenge.endDate" name="endDate" type="date">
+  </label>
+  <button type="submit">Update</button>
+</form>

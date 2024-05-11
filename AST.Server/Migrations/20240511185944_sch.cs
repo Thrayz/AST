@@ -33,6 +33,9 @@ namespace AST.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChallengeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ChallengeDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChallengeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Target = table.Column<int>(type: "int", nullable: false),
+                    TargetReached = table.Column<bool>(type: "bit", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -88,36 +91,13 @@ namespace AST.Server.Migrations
                     CaloriesBurned = table.Column<float>(type: "real", nullable: true),
                     Pace = table.Column<float>(type: "real", nullable: true),
                     RouteMap = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TrainingPlanId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Activities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChallengeActivities",
-                columns: table => new
-                {
-                    ChallengeId = table.Column<int>(type: "int", nullable: false),
-                    ActivityId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChallengeActivities", x => new { x.ChallengeId, x.ActivityId });
-                    table.ForeignKey(
-                        name: "FK_ChallengeActivities_Activities_ActivityId",
-                        column: x => x.ActivityId,
-                        principalTable: "Activities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ChallengeActivities_Challenges_ChallengeId",
-                        column: x => x.ChallengeId,
-                        principalTable: "Challenges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -456,9 +436,9 @@ namespace AST.Server.Migrations
                 column: "TrainingPlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activities_UserId",
+                name: "IX_Activities_UserId1",
                 table: "Activities",
-                column: "UserId");
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -503,11 +483,6 @@ namespace AST.Server.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChallengeActivities_ActivityId",
-                table: "ChallengeActivities",
-                column: "ActivityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChallengeUsers_UserId",
@@ -595,9 +570,9 @@ namespace AST.Server.Migrations
                 column: "UserId1");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Activities_AspNetUsers_UserId",
+                name: "FK_Activities_AspNetUsers_UserId1",
                 table: "Activities",
-                column: "UserId",
+                column: "UserId1",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
 
@@ -665,9 +640,6 @@ namespace AST.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "ChallengeActivities");
 
             migrationBuilder.DropTable(
                 name: "ChallengeUsers");

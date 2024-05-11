@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AST.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240511161345_sch")]
+    [Migration("20240511185944_sch")]
     partial class sch
     {
         /// <inheritdoc />
@@ -56,14 +56,17 @@ namespace AST.Server.Migrations
                     b.Property<int?>("TrainingPlanId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TrainingPlanId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Activities");
                 });
@@ -84,30 +87,25 @@ namespace AST.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ChallengeType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Target")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TargetReached")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Challenges");
-                });
-
-            modelBuilder.Entity("AST.Server.Models.ChallengeActivity", b =>
-                {
-                    b.Property<int>("ChallengeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChallengeId", "ActivityId");
-
-                    b.HasIndex("ActivityId");
-
-                    b.ToTable("ChallengeActivities");
                 });
 
             modelBuilder.Entity("AST.Server.Models.ChallengeUser", b =>
@@ -602,28 +600,9 @@ namespace AST.Server.Migrations
 
                     b.HasOne("AST.Server.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("AST.Server.Models.ChallengeActivity", b =>
-                {
-                    b.HasOne("AST.Server.Models.Activity", "Activity")
-                        .WithMany("ChallengeActivities")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("AST.Server.Models.Challenge", "Challenge")
-                        .WithMany("ChallengeActivities")
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("Challenge");
                 });
 
             modelBuilder.Entity("AST.Server.Models.ChallengeUser", b =>
@@ -826,15 +805,8 @@ namespace AST.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AST.Server.Models.Activity", b =>
-                {
-                    b.Navigation("ChallengeActivities");
-                });
-
             modelBuilder.Entity("AST.Server.Models.Challenge", b =>
                 {
-                    b.Navigation("ChallengeActivities");
-
                     b.Navigation("ChallengeUsers");
                 });
 

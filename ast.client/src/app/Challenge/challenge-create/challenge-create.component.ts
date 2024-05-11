@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CrudServiceService } from '../../_services/crud-service.service';
 
 @Component({
   selector: 'app-challenge-create',
   templateUrl: './challenge-create.component.html',
-  styleUrls: ['./challenge-create.component.css']
 })
-export class ChallengeCreateComponent implements OnInit {
+export class ChallengeCreateComponent {
+  challenge = {
+    challengeName: '',
+    challengeDescription: '',
+    challengeType: '',
+    target: 0,
+    targetReached: false,
+    startDate: '',
+    endDate: ''
+  };
 
-  constructor() { }
+  constructor(private crudService: CrudServiceService) { }
 
-  ngOnInit(): void {
+  createChallenge() {
+    this.crudService.addChallenge(this.challenge).subscribe((challenge) => {
+  
+    });
   }
-
 }

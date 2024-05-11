@@ -372,8 +372,26 @@ getDailyInfo(id: number): Observable<any> {
         })
       );
 }
+  addUserToChallenge(challengeId: number, userId: string): Observable<any> {
+    const body = { challengeId, userId };
+    return this.http.post('https://localhost:7122/api/challenges/addUserToChallenge', body);
+  }
+
+  removeUserFromChallenge(challengeId: number, userId: string): Observable<any> {
+    const body = { challengeId, userId };
+    return this.http.post('https://localhost:7122/api/challenges/removeUserFromChallenge', body);
+  }
 
 
+  getAllChallengeUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl3}/GetallChallengeUsers`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
 
 
 

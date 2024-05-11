@@ -1,1 +1,35 @@
-<p>challenge-list works!</p>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Target</th>
+      <th>Target Reached</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let challenge of challenges">
+      <td>{{userId}}</td>
+      <td>{{ challenge.id }}</td>
+      <td>{{ challenge.challengeName }}</td>
+      <td>{{ challenge.challengeDescription }}</td>
+      <td>{{ challenge.challengeType }}</td>
+      <td>{{ challenge.target }}</td>
+      <td>{{ challenge.targetReached }}</td>
+      <td>{{ challenge.startDate }}</td>
+      <td>{{ challenge.endDate }}</td>
+      <td>
+        <button (click)="updateChallenge(challenge)">Update</button>
+        <button (click)="deleteChallenge(challenge.id)">Delete</button>
+        <button (click)="joinChallenge(challenge.id, userId)">Join</button> 
+        <button (click)="leaveChallenge(challenge.id, userId)">Leave</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button (click)="createChallenge()">Create New Challenge</button>

@@ -126,37 +126,7 @@ namespace AST.Server.Controllers
             }
         }
 
-        [HttpPost("addActivityToChallenge")]
-        public async Task<ActionResult<ChallengeActivity>> AddActivityToChallenge(int challengeId, int activityId)
-        {
-            try
-            {
-                var challenge = await _context.Challenges.Include(c => c.ChallengeActivities).FirstOrDefaultAsync(c => c.Id == challengeId);
-                var activity = await _context.Activities.FindAsync(activityId);
 
-                if (challenge == null || activity == null)
-                {
-                    return NotFound();
-                }
-
-                var challengeActivity = new ChallengeActivity { ChallengeId = challengeId, ActivityId = activityId, Challenge = challenge, Activity = activity };
-                challenge.ChallengeActivities.Add(challengeActivity);
-
-                await _context.SaveChangesAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-                var challengeActivityJson = JsonSerializer.Serialize(challengeActivity, options);
-
-                return Content(challengeActivityJson, "application/json");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
 
         [HttpPost("removeUserFromChallenge")]
         public async Task<ActionResult<ChallengeUser>> RemoveUserFromChallenge(int challengeId, string userId)
@@ -191,42 +161,8 @@ namespace AST.Server.Controllers
             }
         }
 
-        [HttpPost("removeActivityFromChallenge")]
-        public async Task<ActionResult<ChallengeActivity>> RemoveActivityFromChallenge(int challengeId, int activityId)
-        {
-            try
-            {
-                var challenge = await _context.Challenges.Include(c => c.ChallengeActivities).FirstOrDefaultAsync(c => c.Id == challengeId);
-                var activity = await _context.Activities.FindAsync(activityId);
-
-                if (challenge == null || activity == null)
-                {
-                    return NotFound();
-                }
-
-                var challengeActivity = challenge.ChallengeActivities.FirstOrDefault(ca => ca.ActivityId == activityId);
-                challenge.ChallengeActivities.Remove(challengeActivity);
-
-                await _context.SaveChangesAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-                var challengeActivityJson = JsonSerializer.Serialize(challengeActivity, options);
-
-                return Content(challengeActivityJson, "application/json");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet("GetChallengeActivities")]
-        public async Task<IEnumerable<ChallengeActivity>> getAllChallengeActivities()
-        {
-            return await _context.ChallengeActivities.ToListAsync();
-        }
+       
+        
 
         [HttpGet("GetallChallengeUsers")]
         public async Task<IEnumerable<ChallengeUser>> getAllChallengeUsers()
@@ -236,11 +172,7 @@ namespace AST.Server.Controllers
 
 
 
-        [HttpGet("GetTeamUserT/{activityId}")]
-        public async Task<IEnumerable<ChallengeActivity>> GetChallengeActivities(int activityId)
-        {
-            return await _context.ChallengeActivities.Where(tu => tu.ActivityId == activityId).ToListAsync();
-        }
+        
 
         [HttpGet("GetTeamUserU/{userId}")]
         public async Task<IEnumerable<ChallengeUser>> getUserTeams(string userId)

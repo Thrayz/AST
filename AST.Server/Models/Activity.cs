@@ -17,10 +17,10 @@
 
         public string? RouteMap { get; set; }   
 
-        public string ? UserId { get; set; }
+        public int ? UserId { get; set; }
 
         public User? User { get; set; }
-        public ICollection<ChallengeActivity> ChallengeActivities { get; set; } = new List<ChallengeActivity>();
+        
 
 
 
