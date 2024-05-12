@@ -102,11 +102,25 @@ namespace AST.Server.Controllers
 
 
 
-        //get daily info by user id
+        
         [HttpGet("GetDailyInfoByUserId/{userId}")]
         public async Task<ActionResult<IEnumerable<DailyInformation>>> GetDailyInfoByUserId(string userId)
         {
             return await _context.DailyInformations.Where(x => x.UserId == userId).ToListAsync();
+        }
+
+
+        [HttpGet("GetDailyInfoByTeamId/{teamId}")]
+        public async Task<ActionResult<IEnumerable<DailyInformation>>> GetDailyInfoByTeamId(int teamId)
+        {
+            var teamUsers = await _context.TeamUsers.Where(x => x.TeamId == teamId).ToListAsync();
+            List<DailyInformation> dailyInformations = new List<DailyInformation>();
+            foreach (var teamUser in teamUsers)
+            {
+                var dailyInfo = await _context.DailyInformations.Where(x => x.UserId == teamUser.UserId).ToListAsync();
+                dailyInformations.AddRange(dailyInfo);
+            }
+            return dailyInformations;
         }
 
 

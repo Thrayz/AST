@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
+import { FullCalendarModule } from '@fullcalendar/angular'; 
+
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -33,6 +37,10 @@ import { UserchallengelistComponent } from './challenge/userchallengelist/userch
 import { UserGoalListComponent } from './goal/user-goal-list/user-goal-list.component';
 import { UserActivityListComponent } from './activity/user-activity-list/user-activity-list.component';
 import { UserDashboardComponent } from './Dashboard/user-dashboard/user-dashboard.component';
+import { UserStatsComponent } from './Dashboard/user-stats/user-stats.component';
+import { GlobalStatsComponent } from './Dashboard/global-stats/global-stats.component';
+import { TeamStatsComponent } from './Dashboard/team-stats/team-stats.component';
+import { UserCalendarComponent } from './Dashboard/user-calendar/user-calendar.component';
 
 
 @NgModule({
@@ -64,13 +72,19 @@ import { UserDashboardComponent } from './Dashboard/user-dashboard/user-dashboar
     UserchallengelistComponent,
     UserGoalListComponent,
     UserActivityListComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    UserStatsComponent,
+    GlobalStatsComponent,
+    TeamStatsComponent,
+    UserCalendarComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+FullCalendarModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

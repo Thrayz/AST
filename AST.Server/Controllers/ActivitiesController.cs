@@ -108,6 +108,32 @@ namespace AST.Server.Controllers
             return _context.Activities.Any(e => e.Id == id);
         }
 
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesForUser(string userId)
+        {
+            return await _context.Activities.Where(a => a.UserId == userId).ToListAsync();
+        }
+
+
+        
+        [HttpGet("team/{teamId}")]
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesForTeam(int teamId)
+        {   
+            var teamUsers = await _context.TeamUsers.Where(tu => tu.TeamId == teamId).ToListAsync();
+            List<Activity> activities = new List<Activity>();
+            foreach (var tu in teamUsers)
+            {
+                var userActivities = await _context.Activities.Where(a => a.UserId == tu.UserId).ToListAsync();
+                activities.AddRange(userActivities);
+            }
+            return activities;
+        }
+
+
+
+
+
       
 
 

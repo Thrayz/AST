@@ -1,0 +1,12 @@
+:host ::ng-deep .cal-cell-top {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+}
+
+:host ::ng-deep .cal-day-cell {
+  height: 100px;
+}
+
+  :host ::ng-deep .cal-day-cell.cal-in-month {
+    background-color: #fff;
+  }
