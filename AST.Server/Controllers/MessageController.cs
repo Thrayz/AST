@@ -18,9 +18,9 @@ namespace AST.Server.Controllers
             return await _context.Messages.ToListAsync();
         }
         [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<Message>>> GetMessages(string userId)
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessages(string userId, string currentUserId)
         {
-            var currentUserId = "eb04b5e3-49cd-477a-94d9-a17317e604b4";
+            
 
             var messages = await _context.Messages
                 .Where(m => (m.SenderId == currentUserId && m.ReceiverId == userId) || (m.SenderId == userId && m.ReceiverId == currentUserId))

@@ -14,9 +14,15 @@ export class ChatService {
   private hubConnection: HubConnection;
 
   private receivedMessageSubject: Subject<{ userId: string, message: string }> = new Subject<{ userId: string, message: string }>();
-    receivedPrivateMessageSubject: any;
+  public receivedPrivateMessageSubject: Subject<any> = new Subject<any>();
+  private apiUrl = 'https://localhost:7122/api/message';
+  public messageReceived$ = new Subject<any>();
+
 
   constructor(private http: HttpClient) {
+
+
+
   
     const token = localStorage.getItem('token') || 'test';
     const hubConnectionBuilder = new HubConnectionBuilder()
@@ -42,6 +48,8 @@ export class ChatService {
     this.hubConnection.on('ReceiveMessage', (userId: string, message: string) => {
       this.receivedMessageSubject.next({ userId, message });
     });
+
+
   }
 
  
@@ -79,6 +87,13 @@ export class ChatService {
     return this.receivedMessageSubject.asObservable();
     
   }
+
+  getReceivedP(): any {
+    this.hubConnection.on('ReceivePMessage', (senderId, messageContent) => {
+      // Emit received message to subscribers
+      this.messageReceived$.next({ senderId, messageContent });
+    });
+  }
  
   fetchOldMessages(userId: string): Observable<{ userId: string, message: string }[]> {
 
@@ -108,19 +123,21 @@ export class ChatService {
   }
 
 
-  sendPrivateMessage(): Observable<void> {
+  sendPrivateMessage(recipientId: string, message: any): Observable<void> {
+    var token = localStorage.getItem('token') || '';
     return new Observable<void>((observer) => {
       if (this.hubConnection && this.hubConnection.state === HubConnectionState.Connected) {
         // Listen for the private message acknowledgment from the server
-        this.hubConnection.on('ReceivePrivateMessage', (message: any) => {
-          console.log('Received connected users JSON:', message);
+        this.hubConnection.on('ReceivePMessage', (message: any) => {
+          console.log('Received private message:', message);
+          console.log('Received private message:', message.senderUserId, message.messageContent);
           this.receivedPrivateMessageSubject.next(message);
           observer.next(message);
           observer.complete();
         });
 
         // Invoke the server method to send the private message
-        this.hubConnection.invoke('SendPrivateMessage')
+        this.hubConnection.invoke('SendPrivateMessage', recipientId, message, token)
           .catch((error: any) => {
             observer.error(error);
           });
@@ -154,9 +171,21 @@ export class ChatService {
       .start()
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err));
+
+    this.hubConnection.on('ReceiveMessage', (senderId, messageContent) => {
+      // Emit received message to subscribers
+      this.messageReceived$.next({ senderId, messageContent });
+      console.log("uduhfsksdjhflkdshfjdshlfdsjhfjdshfj uvovewe bisaw fuckity fuck");
+    });
   }
 
-  
+
+
+  getMessages(userId: any, currentUserId: any): Observable<any> {
+    console.log('Getting messages for user:', userId);
+    console.log('Current user:', currentUserId);
+    return this.http.get(`${this.apiUrl}/${userId}?currentUserId=${currentUserId}`);
+  }
 
   
 }

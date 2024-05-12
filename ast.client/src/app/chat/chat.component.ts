@@ -3,6 +3,7 @@ import { ChatService } from '../_services/chat-service.service';
 import { User } from '../Models/User';
 import { Observable } from 'rxjs';
 import { SharedServiceService } from '../_services/shared-service.service';
+import { Router } from '@angular/router';
 
 
 
@@ -24,19 +25,20 @@ export class ChatComponent implements OnInit {
   id2: string = '';
 
 
-  constructor(private chatService: ChatService, private userService: SharedServiceService) { }
+  constructor(private chatService: ChatService, private userService: SharedServiceService,
+  private router: Router) { }
 
   ngOnInit(): void {
 
 
 
 
-
+    /*
     setInterval(() => {
       this.bullshit();
     }, 5000);
     this.fetchUsers();
-
+    */
 
     this.chatService.getReceivedMessage().subscribe({
       next: (message) => {
@@ -45,7 +47,12 @@ export class ChatComponent implements OnInit {
           this.privateChatMessages.push(message);
         } else {
           this.receivedMessages.push(message);
+
         }
+
+
+        console.log('Received message:', message);
+        console.log("boooooooooooooooooooooooo");
       },
       error: (error) => {
         console.error('Error receiving message:', error);
@@ -60,12 +67,11 @@ export class ChatComponent implements OnInit {
 
 
   selectUser(user: User) {
-    this.selectedUser = user;
-    this.privateChatMessages = [];
-    this.chatService.fetchOldMessages(user.id).subscribe(messages => {
-      this.privateChatMessages = messages;
-      console.log(this.privateChatMessages);
-    });
+  
+    console.log('User selected: ' + user.id);
+
+    // Navigate to private chat with user ID
+    this.router.navigate(['/private-chat', user.id]);
   }
 
 

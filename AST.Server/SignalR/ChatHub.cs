@@ -203,20 +203,21 @@ namespace AST.Server.SignalR
                 Content = content
 
             };
-
+            await Clients.Caller.SendAsync("ReceivePMessage", messageContent);
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
            
             if (test == true)
             {
-                await Clients.Client(cId).SendAsync("ReceiveMessage", senderUserId, messageContent);
+                await Clients.Client(cId).SendAsync("ReceivePMessage", senderUserId, messageContent);
             }
             else
             {
                 Console.WriteLine("User is disconnected");
             }
+            Console.WriteLine("Message sent to recipient", senderUserId, messageContent, recipientUserId);
 
-            await Clients.Caller.SendAsync("ReceiveMessage", "you", messageContent);
+           
         }
 
         public async Task BroadcastMessage(string messageContent, string token)
@@ -231,7 +232,7 @@ namespace AST.Server.SignalR
             var content = messageContent;
             var recipientUserId = "c3205bc4-5966-4581-bb57-ace00878575c";
             var cId = "";
-            var test = false;
+            //var test = false;
 
             var message = new Message
             {
@@ -249,7 +250,7 @@ namespace AST.Server.SignalR
                     Console.WriteLine("User is still connected");
                     Console.WriteLine("User id: " + tst.Key);
                     cId = tst.Value.First();
-                    test = true;
+                   // test = true;
                 }
                 else
                 {
@@ -258,7 +259,7 @@ namespace AST.Server.SignalR
 
 
             }
-
+            /*
             if (test == true)
             {
                 await Clients.Client(cId).SendAsync("ReceiveMessage", senderUserName, messageContent);
@@ -266,8 +267,8 @@ namespace AST.Server.SignalR
             else
             {
                 Console.WriteLine("User is disconnected");
-            }
-            //await Clients.Others.SendAsync("ReceiveMessage", "", messageContent);
+            }*/
+            await Clients.Others.SendAsync("ReceiveMessage", "", messageContent);
 
 
             Console.WriteLine("Message sent to all", senderUserId, messageContent);

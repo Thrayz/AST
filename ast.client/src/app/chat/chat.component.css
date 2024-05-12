@@ -1,43 +1,41 @@
 .chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  max-width: 600px;
+  margin: auto;
+  border-radius: 5px;
 }
 
-.messages-container {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
+.user-selection {
+  margin-bottom: 20px;
 }
 
-.message {
+.user-item {
   margin-bottom: 10px;
 }
 
-.sender {
-  font-weight: bold;
+.messages-container {
+  height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.private-chat {
+  margin-top: 20px;
 }
 
 .input-container {
-  display: flex;
-  align-items: center;
-  padding: 10px;
+  margin-bottom: 20px;
 }
 
-  .input-container input {
-    flex: 1;
-    padding: 5px;
-    margin-right: 10px;
-  }
+.float-right {
+  clear: both;
+  text-align: right;
+}
 
-  .input-container button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
+.float-left {
+  clear: both;
+  text-align: left;
+}
 
-    .input-container button:hover {
-      background-color: #0056b3;
-    }
+.btn-danger {
+  margin-top: 10px;
+}

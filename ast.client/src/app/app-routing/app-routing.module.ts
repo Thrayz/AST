@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'users', component: UserListComponent },
   { path: 'activity-list', component: ActivityListComponent },
-  { path: 'private-chat', component: PrivateChatComponent },
+{ path: 'private-chat/:id', component: PrivateChatComponent },
   { path: 'daily-info-create', component: DailyInfoCreateComponent },
 { path: 'daily-info-list', component: DailyInfoListComponent },
   { path: 'daily-info-update/:id', component: DailyInfoUpdateComponent },
