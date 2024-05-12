@@ -3,7 +3,14 @@
   <div class="user-selection">
     <app-user-list (userSelected)="selectUser($event)"></app-user-list>
   </div>
+  <div>
+    <h1>Currently Connected Users</h1>
+    <div *ngFor="let user of connectedUsers2" class="user-item">
+      <button (click)="selectUser(user)">Select</button>
+      <span>{{ user.userName }}</span>
+    </div>
 
+  </div>
   <div class="messages-container">
 
     <div *ngFor="let message of receivedMessages" [ngClass]="{ 'message-right': message.userId === 'you', 'message-left': message.userId !== 'you' }">
