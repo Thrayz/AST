@@ -1,0 +1,19 @@
+.user-item {
+  margin-bottom: 10px;
+}
+
+.select-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+  .select-button:hover {
+    background-color: #0056b3;
+  }

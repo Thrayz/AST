@@ -20,6 +20,7 @@ export class PrivateChatComponent {
   privateChatMessages: any[] = [];
   connectedUsers: any[] = [];
   connectedUsers2: any[] = [];
+  senderName!: any;
 
   id: string = '';
   id2: string = '';
@@ -59,10 +60,32 @@ export class PrivateChatComponent {
       });
 
       this.messages.push(message);
+      this.senderName = this.getUsernameFromMessage(message);
+
     });
-   
+    this.userService.getUsers().subscribe(users => {
+this.users = users;
+    }
+);
 
   }
+
+
+  getUserNameFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+
+    const parts = token.split('.');
+    const payload = JSON.parse(atob(parts[1]));
+
+    const userName = payload["unique_name"];
+    console.log(payload["unique_name"]);
+    console.log(userName);
+    return userName;
+  }
+
   getMessagesOfUusers() {
     var userId = this.getUserIdFromToken();
     this.getRecipientIdFromUrl();
@@ -71,6 +94,14 @@ export class PrivateChatComponent {
       this.messages = messages;
       console.log(this.messages);
     });
+  }
+  getUsernameFromMessage(message: any) {
+    if (message.messageContent === null || message.messageContent === undefined || message.messageContent === '') {
+      return this.users.find(user => user.id === message.senderId)?.userName;
+    }
+    else {
+      return this.users.find(user => user.id === message.senderId)?.userName;
+    }
   }
 
   getUserIdFromToken() {
