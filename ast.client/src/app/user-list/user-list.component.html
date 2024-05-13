@@ -1,4 +1,5 @@
 <div *ngFor="let user of users" class="user-item">
-  <button (click)="selectUser(user)">Select</button>
-  <span>{{ user.userName }}</span>
+
+  <button class="select-button" (click)="selectUser(user)">Message : {{ user.userName }}</button>
+
 </div>

@@ -2,14 +2,9 @@
   <div class="list-group user-selection">
     <app-user-list (userSelected)="selectUser($event)"></app-user-list>
   </div>
-  <!--  <div>
-    <h1>Currently Connected Users</h1>
-    <div *ngFor="let user of connectedUsers2" class="user-item">
-      <button class="btn btn-primary" (click)="selectUser(user)">Select</button>
-      <span>{{ user.userName }}</span>
-    </div>
-  </div>
-    -->
+
+ 
+
 
   <div class="messages-container">
     <div *ngFor="let message of receivedMessages" [ngClass]="{ 'float-right': message.userId === 'you', 'float-left': message.userId !== 'you' }">
@@ -34,10 +29,12 @@
   <div class="input-group mb-3 input-container">
     <input type="text" class="form-control" placeholder="Type your message..." [(ngModel)]="newMessage">
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" (click)="sendMessage()">Send</button>
+     
       <button class="btn btn-outline-secondary" type="button" (click)="broadcastMessage()">Broadcast</button>
     </div>
   </div>
+
+  
+
 </div>
-<button class="btn btn-danger" (click)="bullshit()">bullshit typa shit </button>
-<button class="btn btn-danger" (click)="getUserIdFromToken()">fuuuuuuuuuuuuuuuuuuuuuuck</button>
+

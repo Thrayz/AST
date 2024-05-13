@@ -1,31 +1,16 @@
 <div class="chat-container">
-
   <div class="messages-container">
     <h2>Messages</h2>
-    <div *ngFor="let message of messages">
-      <div [ngClass]="{ 'message-right': message.userId === id, 'message-left': message.userId !== id }">
-        <span class="sender">{{ message.userId === id ? 'You' : 'Not You' }}:</span>
-        <span class="text">{{ message.senderId }}</span>
-      </div>
+    <div *ngFor="let message of messages" class="message" [ngClass]="{ 'message-right': message.userId === id, 'message-left': message.userId !== id }">
+      <span *ngIf="message.messageContent == undefined" class="sender" >You :</span>
+      <span *ngIf="message.messageContent != undefined" class="sender" >{{ message.senderId }} :</span>
+      <span *ngIf="message.messageContent != undefined" class="text" >{{ message.messageContent }}</span>
+      <span *ngIf="message.messageContent == undefined" class="text" >{{ message.senderId }}</span>
     </div>
   </div>
 
- 
-  <div class="messages-container">
-    <h2>Messages</h2>
-    <div *ngFor="let message of receivedPrivateMessages">
-      <div [ngClass]="{ 'message-right': message.userId === id, 'message-left': message.userId !== id }">
-
-        <span class="text">{{  message }}</span>
-      </div>
-    </div>
-  </div>
-
-  <div *ngFor="let t of receivedPrivateMessages">
-    <h1>{{t}}</h1>
-  </div>
   <div class="input-container">
-    <input type="text" placeholder="Type your message..." [(ngModel)]="newMessage">
-    <button (click)="sendMessage()">Send</button>
+    <input type="text" class="input-field" placeholder="Type your message..." [(ngModel)]="newMessage">
+    <button class="send-button" (click)="sendMessage()">Send</button>
   </div>
 </div>
