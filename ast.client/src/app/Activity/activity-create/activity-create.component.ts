@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrudServiceService } from 'src/app/_services/crud-service.service';
+import { SharedServiceService } from '../../_services/shared-service.service';
 
 
 
@@ -18,7 +19,7 @@ export class ActivityCreateComponent implements OnInit {
     duration: null,
     date: '',
     pace: '',
-    userId:'0e986100-acb4-4f3a-8099-baf161c96b7d'
+    userId :''
   };
   activityTypes: string[] = ['Running', 'Walking', 'Cycling'];
   activityTypeRequirements: any[] = [  
@@ -32,7 +33,7 @@ export class ActivityCreateComponent implements OnInit {
     { label: 'High', factor: 8 }
   ];
 
-  constructor(private crudService: CrudServiceService, private router: Router) { }
+  constructor(private crudService: CrudServiceService, private router: Router, private sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
   }
@@ -42,7 +43,7 @@ export class ActivityCreateComponent implements OnInit {
     const activityType = this.activity.activityType;
     const durationHours = this.activity.duration / 60; 
     const paceFactor = this.activity.pace;
-
+    this.activity.userId = this.sharedService.getUserIdFromToken();
     const activityTypeRequirement = this.getActivityTypeRequirement(activityType);
     if (activityTypeRequirement) {
       const caloriesBurnedPerHour = activityTypeRequirement.caloriesBurnedPerHour;

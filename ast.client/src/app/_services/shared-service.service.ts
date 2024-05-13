@@ -60,7 +60,44 @@ export class SharedServiceService {
 
 
 
+  getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
 
+    const parts = token.split('.');
+
+
+
+
+
+    const payload = JSON.parse(atob(parts[1]));
+
+    const userId = payload["nameid"];
+    console.log(payload["nameid"]);
+    console.log(userId);
+
+
+    return userId;
+  }
+
+  getUserRoleFromToken() {
+const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+
+    const parts = token.split('.');
+
+    const payload = JSON.parse(atob(parts[1]));
+
+    const userRole = payload["role"];
+    console.log(payload["role"]);
+    console.log(userRole);
+
+    return userRole;
+  }
 
 
 

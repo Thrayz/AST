@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -95,7 +96,8 @@ import { TeamListComponent } from './Teams/team-list/team-list.component';
     AppRoutingModule,
     FullCalendarModule,
     ChartsModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

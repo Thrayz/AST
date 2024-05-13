@@ -8,7 +8,7 @@
       <option *ngFor="let type of activityTypes" [value]="type">{{ type }}</option>
     </select>
   </div>
-  <div>
+  <div *ngIf="getActivityTypeRequirement(activity.activityType)?.requiresDistance">
     <label for="distance">Distance:</label>
     <input *ngIf="getActivityTypeRequirement(activity.activityType)?.requiresDistance" type="number" id="distance" name="distance" [(ngModel)]="activity.distance" required>
   </div>
@@ -25,10 +25,6 @@
     <select id="pace" name="pace" [(ngModel)]="activity.pace">
       <option *ngFor="let pace of paces" [value]="pace.factor">{{ pace.label }}</option>
     </select>
-  </div>
-  <div>
-    <label for="caloriesBurned">Calories Burned:</label>
-    <input type="number" id="caloriesBurned" name="caloriesBurned" [(ngModel)]="activity.caloriesBurned" readonly>
   </div>
   <button type="submit">Create</button>
 </form>

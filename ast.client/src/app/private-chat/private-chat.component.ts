@@ -60,6 +60,7 @@ export class PrivateChatComponent {
       });
 
       this.messages.push(message);
+      console.log(this.messages);
       this.senderName = this.getUsernameFromMessage(message);
 
     });
