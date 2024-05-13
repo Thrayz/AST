@@ -1,0 +1,10 @@
+<div class="team-create">
+  <h2>Create New Team</h2>
+  <form (submit)="createTeam(team)">
+    <div>
+      <label for="teamName">Team Name:</label>
+      <input type="text" id="teamName" name="teamName" [(ngModel)]="team.teamName" required>
+    </div>
+    <button type="submit">Create</button>
+  </form>
+</div>

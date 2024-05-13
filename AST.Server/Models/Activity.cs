@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string? ActivityType { get; set; }
 
-        public string? Distance { get; set; }
+        public int? Distance { get; set; }
 
         public int? Duration { get; set; }
 

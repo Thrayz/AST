@@ -8,6 +8,7 @@
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\ast.client\</PublishAssetsDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="src\app\Activity\Models\" />
     <Folder Include="src\app\Models\" />
     <Folder Include="src\app\userAccount\" />
   </ItemGroup>

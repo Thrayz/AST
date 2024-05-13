@@ -1,0 +1,10 @@
+<div class="teams-list">
+  <h2>Team List</h2>
+  <ul>
+    <li *ngFor="let team of (teams$ | async)">
+      <span>{{ team.teamName }}</span>
+      <button (click)="navigateToUpdate(team.id)">Update</button>
+    </li>
+  </ul>
+  <button (click)="navigateToCreate()">Create New Team</button>
+</div>

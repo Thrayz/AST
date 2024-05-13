@@ -1,0 +1,10 @@
+<div class="team-update">
+  <h2>Update Team</h2>
+  <form (submit)="updateTeam(team)">
+    <div>
+      <label for="teamName">Team Name:</label>
+      <input type="text" id="teamName" name="teamName" [(ngModel)]="team.teamName" required>
+    </div>
+    <button type="submit">Update</button>
+  </form>
+</div>

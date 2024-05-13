@@ -1,37 +1,34 @@
+<!-- activity-create.component.html -->
 <h2>Create New Activity</h2>
 
 <form (submit)="createActivity()">
   <div>
     <label for="activityType">Activity Type:</label>
-    <input type="text" id="activityType" name="activityType" [(ngModel)]="activity.activityType" required>
+    <select id="activityType" name="activityType" [(ngModel)]="activity.activityType" required>
+      <option *ngFor="let type of activityTypes" [value]="type">{{ type }}</option>
+    </select>
   </div>
   <div>
     <label for="distance">Distance:</label>
-    <input type="text" id="distance" name="distance" [(ngModel)]="activity.distance" required>
+    <input *ngIf="getActivityTypeRequirement(activity.activityType)?.requiresDistance" type="number" id="distance" name="distance" [(ngModel)]="activity.distance" required>
   </div>
   <div>
     <label for="duration">Duration:</label>
-    <input type="text" id="duration" name="duration" [(ngModel)]="activity.duration" required>
+    <input type="number" id="duration" name="duration" [(ngModel)]="activity.duration" required>
   </div>
   <div>
     <label for="date">Date:</label>
     <input type="date" id="date" name="date" [(ngModel)]="activity.date" required>
   </div>
   <div>
-    <label for="caloriesBurned">Calories Burned:</label>
-    <input type="text" id="caloriesBurned" name="caloriesBurned" [(ngModel)]="activity.caloriesBurned">
-  </div>
-  <div>
     <label for="pace">Pace:</label>
-    <input type="text" id="pace" name="pace" [(ngModel)]="activity.pace">
+    <select id="pace" name="pace" [(ngModel)]="activity.pace">
+      <option *ngFor="let pace of paces" [value]="pace.factor">{{ pace.label }}</option>
+    </select>
   </div>
   <div>
-    <label for="routeMap">Route Map:</label>
-    <input type="text" id="routeMap" name="routeMap" [(ngModel)]="activity.routeMap">
-  </div>
-  <div>
-    <label for="userId">User ID:</label>
-    <input type="text" id="userId" name="userId" [(ngModel)]="activity.userId">
+    <label for="caloriesBurned">Calories Burned:</label>
+    <input type="number" id="caloriesBurned" name="caloriesBurned" [(ngModel)]="activity.caloriesBurned" readonly>
   </div>
   <button type="submit">Create</button>
 </form>

@@ -41,6 +41,10 @@ import { UserStatsComponent } from './Dashboard/user-stats/user-stats.component'
 import { GlobalStatsComponent } from './Dashboard/global-stats/global-stats.component';
 import { TeamStatsComponent } from './Dashboard/team-stats/team-stats.component';
 import { UserCalendarComponent } from './Dashboard/user-calendar/user-calendar.component';
+import { TeamComponent } from './team/team.component';
+import { TeamCreateComponent } from './Teams/team-create/team-create.component';
+import { TeamUpdateComponent } from './Teams/team-update/team-update.component';
+import { TeamListComponent } from './Teams/team-list/team-list.component';
 
 
 @NgModule({
@@ -76,7 +80,11 @@ import { UserCalendarComponent } from './Dashboard/user-calendar/user-calendar.c
     UserStatsComponent,
     GlobalStatsComponent,
     TeamStatsComponent,
-    UserCalendarComponent
+    UserCalendarComponent,
+    TeamComponent,
+    TeamCreateComponent,
+    TeamUpdateComponent,
+    TeamListComponent
   ],
   imports: [
     BrowserModule,

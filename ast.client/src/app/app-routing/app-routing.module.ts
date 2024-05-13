@@ -19,7 +19,10 @@ import { GoalListComponent } from '../Goal/goal-list/goal-list.component';
 import { GoalCreateComponent } from '../Goal/goal-create/goal-create.component';
 import { GoalUpdateComponent } from '../Goal/goal-update/goal-update.component';
 import { UserCalendarComponent } from '../Dashboard/user-calendar/user-calendar.component';
-import { UserStatsComponent } from '../Dashboard/user-stats/user-stats.component'; 
+import { UserStatsComponent } from '../Dashboard/user-stats/user-stats.component';
+import { TeamListComponent } from '../Teams/team-list/team-list.component';
+import { TeamCreateComponent } from '../Teams/team-create/team-create.component';
+import { TeamUpdateComponent } from '../Teams/team-update/team-update.component';
 
 
 
@@ -43,7 +46,10 @@ const routes: Routes = [
   { path: 'goal-create', component: GoalCreateComponent },
   { path: 'goal-update/:id', component: GoalUpdateComponent },
   { path: 'user-calendar', component: UserCalendarComponent },
-{ path: 'user-stats', component: UserStatsComponent },
+  { path: 'user-stats', component: UserStatsComponent },
+  { path: 'teams', component: TeamListComponent },
+  { path: 'team-create', component: TeamCreateComponent },
+  { path: 'team-update/:id', component: TeamUpdateComponent },
 
   { path: 'home', component: HomeComponent },
   { path: 'activity-update/:id', component: ActivityUpdateComponent },
