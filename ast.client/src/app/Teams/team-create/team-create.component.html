@@ -1,10 +1,12 @@
-<div class="team-create">
-  <h2>Create New Team</h2>
-  <form (submit)="createTeam(team)">
-    <div>
-      <label for="teamName">Team Name:</label>
-      <input type="text" id="teamName" name="teamName" [(ngModel)]="team.teamName" required>
-    </div>
-    <button type="submit">Create</button>
-  </form>
+<div class="container">
+  <div class="team-create" style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #333; font-size: 24px; margin-bottom: 20px;">Create New Team</h2>
+    <form (submit)="createTeam(team)" style="max-width: 300px;">
+      <div class="form-group">
+        <label for="teamName" style="color: #555; font-size: 16px;">Team Name:</label>
+        <input type="text" id="teamName" name="teamName" [(ngModel)]="team.teamName" required class="form-control" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+      </div>
+      <button type="submit" class="btn btn-primary" style="background-color: #4CAF50; color: white; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer;">Create</button>
+    </form>
+  </div>
 </div>
