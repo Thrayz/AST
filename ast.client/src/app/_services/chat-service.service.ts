@@ -10,6 +10,11 @@ import * as signalR from '@microsoft/signalr';
 @Injectable({
   providedIn: 'root'
 })
+
+//Bugged piece of shit that works just about good enough for me to stop giving a flying fuck 
+//DON'T TOUCH anything in this file and/or anything related to this file 
+
+
 export class ChatService {
   private hubConnection: HubConnection;
 
