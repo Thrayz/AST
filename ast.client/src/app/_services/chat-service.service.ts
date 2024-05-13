@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SignalRLoggingInterceptor } from '../Models/Interceptor';
 import * as signalR from '@microsoft/signalr';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -22,9 +23,10 @@ export class ChatService {
   public receivedPrivateMessageSubject: Subject<any> = new Subject<any>();
   private apiUrl = 'https://localhost:7122/api/message';
   public messageReceived$ = new Subject<any>();
+    signalRInterceptor!: SignalRLoggingInterceptor;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private toastr: ToastrService) {
 
 
 
@@ -40,7 +42,7 @@ export class ChatService {
     this.hubConnection = hubConnectionBuilder.build();
 
    
-    const loggingInterceptor = new SignalRLoggingInterceptor(this.hubConnection);
+    const loggingInterceptor = new SignalRLoggingInterceptor(this.hubConnection, this.toastr);
 
   
     loggingInterceptor.startLogging();
@@ -52,6 +54,10 @@ export class ChatService {
    
     this.hubConnection.on('ReceiveMessage', (userId: string, message: string) => {
       this.receivedMessageSubject.next({ userId, message });
+     
+      this.signalRInterceptor.handleIncomingMessage(message);
+     
+
     });
 
 
@@ -89,6 +95,7 @@ export class ChatService {
 
 
   getReceivedMessage(): Observable<{ userId: string, message: string }> {
+  
     return this.receivedMessageSubject.asObservable();
     
   }
@@ -180,6 +187,7 @@ export class ChatService {
     this.hubConnection.on('ReceiveMessage', (senderId, messageContent) => {
       // Emit received message to subscribers
       this.messageReceived$.next({ senderId, messageContent });
+
       console.log("uduhfsksdjhflkdshfjdshlfdsjhfjdshfj uvovewe bisaw fuckity fuck");
     });
   }

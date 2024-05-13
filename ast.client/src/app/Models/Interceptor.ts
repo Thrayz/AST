@@ -1,11 +1,16 @@
 import { HubConnection, HubConnectionState, LogLevel } from '@microsoft/signalr';
+import { ToastrService } from 'ngx-toastr';
 
 export class SignalRLoggingInterceptor {
-  constructor(private hubConnection: HubConnection) { }
+  constructor(private hubConnection: HubConnection,
+    private toastr: ToastrService) { }
 
   public startLogging(): void {
     this.hubConnection.on('ReceiveMessage', (data: any) => {
       console.log('Received message:', data);
+      // Display a notification for received message
+      this.toastr.success('New message received', 'Message');
+      console.log("welp");
     });
 
     this.hubConnection.onreconnecting(() => {
@@ -27,5 +32,19 @@ export class SignalRLoggingInterceptor {
     this.hubConnection.on('error', (error: any) => {
       console.error('SignalR error:', error);
     });
+  }
+
+  public handleIncomingMessage(message: string): void {
+    this.toastr.success(message, 'New Message', {
+      enableHtml: false,
+      closeButton: true,
+      timeOut: 5000,
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      positionClass: 'toast-top-right',
+      tapToDismiss: false,
+      toastClass: 'custom-toast'
+    });
+  
   }
 }

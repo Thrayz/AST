@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css */
+.custom-toast {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  background-color: #4CAF50;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 10000; /* Ensure the toast appears above other content */
+}
+
+  .custom-toast .toast-header {
+    background-color: #388E3C;
+    color: #fff;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+  }
+
+    .custom-toast .toast-header .close {
+      color: #fff;
+    }
+
+  .custom-toast .toast-body {
+    padding: 10px;
+  }
+
+  .custom-toast .progress-bar {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .custom-toast.success {
+    background-color: #4CAF50;
+  }
+
+  .custom-toast.error {
+    background-color: #F44336;
+  }
+
+  .custom-toast.info {
+    background-color: #2196F3;
+  }
+
+  .custom-toast.warning {
+    background-color: #FFC107;
+  }

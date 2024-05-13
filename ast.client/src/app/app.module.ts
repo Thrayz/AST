@@ -6,6 +6,8 @@ import { ChartsModule } from 'ng2-charts';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -97,7 +99,17 @@ import { TeamListComponent } from './Teams/team-list/team-list.component';
     FullCalendarModule,
     ChartsModule,
     NgbDropdownModule,
-NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      enableHtml: true,
+      timeOut: 5000,
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      positionClass: 'toast-top-right',
+      tapToDismiss: true,
+      toastClass: 'custom-toast'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
