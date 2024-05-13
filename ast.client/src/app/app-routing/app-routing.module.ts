@@ -23,7 +23,11 @@ import { UserStatsComponent } from '../Dashboard/user-stats/user-stats.component
 import { TeamListComponent } from '../Teams/team-list/team-list.component';
 import { TeamCreateComponent } from '../Teams/team-create/team-create.component';
 import { TeamUpdateComponent } from '../Teams/team-update/team-update.component';
+
 import { SideNavComponent } from '../side-nav/side-nav.component';
+
+import { UserDashboardComponent } from '../Dashboard/user-dashboard/user-dashboard.component';
+
 
 
 
@@ -51,7 +55,8 @@ const routes: Routes = [
   { path: 'teams', component: TeamListComponent },
   { path: 'team-create', component: TeamCreateComponent },
   { path: 'team-update/:id', component: TeamUpdateComponent },
-  { path: 'sidenav', component: SideNavComponent },
+
+  { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'home', component: HomeComponent },
   { path: 'activity-update/:id', component: ActivityUpdateComponent },
   { path: 'activity-create', component: ActivityCreateComponent }
