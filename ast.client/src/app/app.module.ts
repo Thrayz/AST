@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -91,8 +93,9 @@ import { TeamListComponent } from './Teams/team-list/team-list.component';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-FullCalendarModule,
-    ChartsModule
+    FullCalendarModule,
+    ChartsModule,
+    NgbDropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]
