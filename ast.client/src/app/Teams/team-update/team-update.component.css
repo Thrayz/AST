@@ -1,0 +1,43 @@
+.container {
+  padding: 20px;
+}
+
+.team-update {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+  .team-update h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .team-update form {
+    max-width: 300px;
+  }
+
+  .team-update label {
+    color: #555;
+    font-size: 16px;
+  }
+
+  .team-update input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .team-update button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+    .team-update button:hover {
+      background-color: #0056b3;
+    }
