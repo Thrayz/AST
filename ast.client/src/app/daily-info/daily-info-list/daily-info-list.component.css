@@ -1,0 +1,73 @@
+.container {
+  margin-top: 50px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+button.create-btn {
+  margin-bottom: 20px;
+}
+
+.table th {
+  background-color: #6c757d; /* Dark gray */
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table td,
+.table th {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  text-align: center;
+}
+
+.action-btns button {
+  margin-right: 5px;
+}
+
+.update-btn {
+  background-color: #28a745; /* Green */
+  color: #fff;
+  border: none;
+}
+
+  .update-btn:hover {
+    background-color: #218838; /* Darker green */
+  }
+
+.delete-btn {
+  background-color: #dc3545; /* Red */
+  color: #fff;
+  border: none;
+}
+
+  .delete-btn:hover {
+    background-color: #c82333; /* Darker red */
+  }
+
+/* Custom column styles */
+.column-date {
+  background-color: #ffc107; /* Yellow */
+}
+
+.column-weight {
+  background-color: #17a2b8; /* Teal */
+}
+
+.column-calories {
+  background-color: #007bff; /* Blue */
+}
+
+.column-activity-id {
+  background-color: #28a745; /* Green */
+}
+
+.column-user-id {
+  background-color: #dc3545; /* Red */
+}

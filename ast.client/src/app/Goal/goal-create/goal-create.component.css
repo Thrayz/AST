@@ -48,7 +48,7 @@ button[type="submit"] {
 }
 
 label {
-  font-weight: bold;
+  font-weight: normal;
 }
 
 input[type="text"],
