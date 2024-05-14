@@ -116,7 +116,8 @@ namespace AST.Server.Controllers
         }
 
 
-        
+
+
         [HttpGet("team/{teamId}")]
         public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesForTeam(int teamId)
         {   
@@ -130,6 +131,8 @@ namespace AST.Server.Controllers
             return activities;
         }
 
+
+        
 
 
 

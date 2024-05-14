@@ -129,6 +129,29 @@ namespace AST.Server.Controllers
             return await _context.ChallengeUsers.ToListAsync();
         }
 
+        //get challenge user by challenge id and usr id 
+        [HttpGet("GetChallengeUser/{challengeId}/{userId}")]
+        public async Task<ActionResult<ChallengeUser>> getChallengeUser(int challengeId, string userId)
+        {
+            var challengeUser = await _context.ChallengeUsers.FirstOrDefaultAsync(cu => cu.ChallengeId == challengeId && cu.UserId == userId);
+            if (challengeUser == null)
+            {
+                return NotFound();
+            }
+            return challengeUser;
+        }
+
+        //get all challenge users by challenge id
+        [HttpGet("GetChallengeUsers/{challengeId}")]
+        public async Task<IEnumerable<ChallengeUser>> getChallengeUsers(int challengeId)
+        {
+            return await _context.ChallengeUsers.Where(cu => cu.ChallengeId == challengeId).ToListAsync();
+        }
+
+        //get all challenges by user id
+
+        
+
 
 
         

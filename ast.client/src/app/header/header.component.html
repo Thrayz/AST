@@ -13,8 +13,8 @@
         </a>
         <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdownChat">
           <a class="dropdown-item" routerLink="/chat">Public Chat</a>
-<a class="dropdown-item" routerLink="/user-list">Private Chat</a>
-         
+          <a class="dropdown-item" routerLink="/user-list">Private Chat</a>
+
         </div>
       </li>
       <li class="nav-item dropdown" ngbDropdown>
@@ -32,6 +32,28 @@
       <li class="nav-item dropdown" ngbDropdown>
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0)" id="navbarDropdownAuth" role="button"
            aria-haspopup="true" aria-expanded="false">
+          Challenges
+        </a>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdownAuth">
+          <a class="dropdown-item" routerLink="/challenge-list">List</a>
+          <a class="dropdown-item" routerLink="#">My challenges</a>
+          <!-- Add more options as needed -->
+        </div>
+      </li>
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0)" id="navbarDropdownAuth" role="button"
+           aria-haspopup="true" aria-expanded="false">
+          Activities
+        </a>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarActivities">
+          <a class="dropdown-item" routerLink="/activity-list">My Activities</a>
+          <a class="dropdown-item" routerLink="/activity-create">Add activity</a>
+          <!-- Add more options as needed -->
+        </div>
+      </li>
+      <li class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0)" id="navbarDropdownAuth" role="button"
+           aria-haspopup="true" aria-expanded="false">
           Authentication
         </a>
         <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdownAuth">
@@ -40,6 +62,7 @@
           <!-- Add more options as needed -->
         </div>
       </li>
+
       <!-- Add more dropdown items as needed -->
     </ul>
   </div>

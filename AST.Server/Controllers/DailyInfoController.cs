@@ -78,6 +78,16 @@ namespace AST.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<DailyInformation>> PostDailyInformation(DailyInformation dailyInformation)
         {
+            //prevent if user already has daily info for the same date
+            dailyInformation.Date = dailyInformation.Date.Value.Date;
+            var dailyInfo = await _context.DailyInformations.FirstOrDefaultAsync(x => x.UserId == dailyInformation.UserId && x.Date == dailyInformation.Date);
+            
+            if (dailyInfo != null)
+            {
+                return BadRequest("User already has daily info for this date");
+            }
+
+
             _context.DailyInformations.Add(dailyInformation);
             await _context.SaveChangesAsync();
 

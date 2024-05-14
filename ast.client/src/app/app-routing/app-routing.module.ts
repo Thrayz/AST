@@ -56,7 +56,8 @@ const routes: Routes = [
   { path: 'teams', component: TeamListComponent },
   { path: 'team-create', component: TeamCreateComponent },
   { path: 'team-update/:id', component: TeamUpdateComponent },
-  { path: 'user-list', component: UserListComponent }, 
+  { path: 'user-list', component: UserListComponent },
+  { path: '', component: HomeComponent },
   
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'home', component: HomeComponent },

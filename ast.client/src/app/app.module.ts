@@ -8,6 +8,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 
 
 
@@ -50,6 +52,7 @@ import { TeamComponent } from './team/team.component';
 import { TeamCreateComponent } from './Teams/team-create/team-create.component';
 import { TeamUpdateComponent } from './Teams/team-update/team-update.component';
 import { TeamListComponent } from './Teams/team-list/team-list.component';
+import { MessageNotificationComponent } from './Notification/message-notification/message-notification.component';
 
 
 @NgModule({
@@ -89,7 +92,8 @@ import { TeamListComponent } from './Teams/team-list/team-list.component';
     TeamComponent,
     TeamCreateComponent,
     TeamUpdateComponent,
-    TeamListComponent
+    TeamListComponent,
+    MessageNotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -107,9 +111,12 @@ import { TeamListComponent } from './Teams/team-list/team-list.component';
       progressBar: true,
       progressAnimation: 'decreasing',
       positionClass: 'toast-top-right',
+
       tapToDismiss: true,
       toastClass: 'custom-toast'
-    })
+    }),
+SweetAlert2Module.forRoot()
+
   ],
   providers: [],
   bootstrap: [AppComponent]

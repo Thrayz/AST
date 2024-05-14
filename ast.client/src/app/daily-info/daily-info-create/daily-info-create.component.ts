@@ -13,8 +13,7 @@ export class DailyInfoCreateComponent implements OnInit {
     date: '',
     weight: '',
     caloriesIntake: '',
-    activityId: '',
-    userId: ''
+    userId: 'a86ccff4-37e7-485a-aa65-14c5e765a4be'
   };
 
   constructor(private service: CrudServiceService) { }

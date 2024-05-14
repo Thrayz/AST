@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { SharedServiceService } from '../../_services/shared-service.service';
 
 import { StatsService } from '../../_services/stats.service';
 
@@ -16,10 +17,10 @@ export class UserCalendarComponent implements OnInit {
     events: [],
   };
 
-  constructor(private statsService: StatsService) { }
-
+  constructor(private statsService: StatsService, private sharedService: SharedServiceService) { }
+  private id: string = this.sharedService.getUserIdFromToken();
   ngOnInit(): void {
-    this.statsService.getDailyInfoByUserId('a86ccff4-37e7-485a-aa65-14c5e765a4be').subscribe((data: any[]) => {
+    this.statsService.getDailyInfoByUserId(this.id).subscribe((data: any[]) => {
       const events = data.map(dailyInfo => {
         return {
           start: dailyInfo.date,

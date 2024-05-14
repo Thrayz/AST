@@ -380,8 +380,20 @@ getDailyInfo(id: number): Observable<any> {
     }
   }
 
-  async removeUserFromChallenge(challengeId: any, userId: any) {
-    return this.http.post(`${this.apiUrl3}/removeUserFromChallenge`, { challengeId, userId }).toPromise();
+  getChallengeUser(challengeId: number, userId: string): Observable<any> {
+    const url = `${this.apiUrl3}/GetChallengeUser/${challengeId}/${userId}`;
+    return this.http.get<any>(url);
+  }
+
+  removeUserFromChallenge(id: any) {
+    console.log(id)
+    return this.http.delete<any>(`${this.apiUrl3}/removeUserFromChallenge/${id}`)
+    .pipe(
+      catchError((error: any) => {
+        console.error('Error:', error);
+        return throwError(error);
+      })
+    );
   }
 
 
