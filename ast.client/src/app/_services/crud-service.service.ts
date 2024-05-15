@@ -72,6 +72,7 @@ export class CrudServiceService {
 
 
   getActivitiesByUser(userId: string): Observable<any[]> {
+    console.log(this.http.get<any[]>(`${this.apiUrl}/user/${userId}`))
 return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`)
       .pipe(
         catchError((error: any) => {
@@ -432,7 +433,24 @@ getDailyInfo(id: number): Observable<any> {
       );
   }
 
+ 
+  getChallengesByUserId(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl3}/GetChallengesByUserId/${userId}`);
+  }
 
+ 
+  getUsersByChallengeId(challengeId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl3}/GetUsersByChallengeId/${challengeId}`);
+  }
+
+  getActivitiesByUserDateRange(userId: string, startDate: Date, endDate: Date): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/dateRange`, {
+      params: {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString()
+      }
+    });
+  }
 
   
 

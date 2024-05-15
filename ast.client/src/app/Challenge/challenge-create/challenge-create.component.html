@@ -12,13 +12,16 @@
       </div>
       <div class="form-group">
         <label for="challengeType">Challenge Type:</label>
-        <input [(ngModel)]="challenge.challengeType" name="challengeType" id="challengeType" class="form-control">
+        <select [(ngModel)]="challenge.challengeType" name="challengeType" id="challengeType" class="form-control">
+          <option value="Duration">Duration</option>
+          <option value="Distance">Distance</option>
+          <option value="Calories Burned">Calories Burned</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="target">Target:</label>
         <input [(ngModel)]="challenge.target" name="target" id="target" class="form-control">
       </div>
-      
       <div class="form-group">
         <label for="startDate">Start Date:</label>
         <input [(ngModel)]="challenge.startDate" name="startDate" id="startDate" class="form-control" type="date">

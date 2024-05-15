@@ -104,8 +104,20 @@ namespace AST.Server.Controllers
         }
 
 
-       
-       
+
+        [HttpGet("user/{userId}/dateRange")]
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesUserDateRange(string userId, DateTime startDate, DateTime endDate)
+        {
+            // Parse the start and end dates before using them in the LINQ expression
+            var parsedStartDate = startDate.Date;
+            var parsedEndDate = endDate.Date.AddDays(1).AddTicks(-1); // Adjusted to include the end of the end date
+
+            return await _context.Activities
+                .Where(a => a.UserId == userId && DateTime.Parse(a.Date) >= parsedStartDate && DateTime.Parse(a.Date) <= parsedEndDate)
+                .ToListAsync();
+        }
+
+
 
         private bool ActivityExists(int id)
         {

@@ -1,7 +1,36 @@
+<table class="table">
+  <!-- Table headers -->
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Activity Type</th>
+      <th>Distance</th>
+      <th>Duration</th>
+      <th>Date</th>
+      <th>Calories Burned</th>
+      <th>Pace</th>
+   
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Iterate over activities and display them -->
+    <tr *ngFor="let activity of activities">
+      <td>{{ activity.id }}</td>
+      <td>{{ activity.activityType }}</td>
+      <td>{{ activity.distance }}</td>
+      <td>{{ activity.duration }}</td>
+      <td>{{ activity.date }}</td>
+      <td>{{ activity.caloriesBurned }}</td>
+      <td>{{ activity.pace }}</td>
+   
+      <td>
+        <button (click)="updateActivity(activity)" class="btn btn-primary">Update</button>
+        <button (click)="deleteActivity(activity.id)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <div class="activity" *ngFor="let activity of activities">
-    <div class="activity__header">
-      <h2 class="activity__title">{{ activity.activityType }}</h2>
- 
-  </div>
-
+<!-- Button to create a new activity -->
+<button (click)="createActivity()" class="btn btn-primary">Create New Activity</button>

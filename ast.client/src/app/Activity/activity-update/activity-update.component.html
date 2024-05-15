@@ -1,37 +1,40 @@
-<h2>Update Activity</h2>
+<!-- activity-update.component.html -->
+<div class="container">
+  <h2>Update Activity</h2>
 
-<form (submit)="updateActivity()">
-  <div>
-    <label for="activityType">Activity Type:</label>
-    <input type="text" id="activityType" name="activityType" [(ngModel)]="activity.activityType" required>
-  </div>
-  <div>
-    <label for="distance">Distance:</label>
-    <input type="text" id="distance" name="distance" [(ngModel)]="activity.distance" required>
-  </div>
-  <div>
-    <label for="duration">Duration:</label>
-    <input type="text" id="duration" name="duration" [(ngModel)]="activity.duration" required>
-  </div>
-  <div>
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date" [(ngModel)]="activity.date" required>
-  </div>
-  <div>
-    <label for="caloriesBurned">Calories Burned:</label>
-    <input type="text" id="caloriesBurned" name="caloriesBurned" [(ngModel)]="activity.caloriesBurned">
-  </div>
-  <div>
-    <label for="pace">Pace:</label>
-    <input type="text" id="pace" name="pace" [(ngModel)]="activity.pace">
-  </div>
-  <div>
-    <label for="routeMap">Route Map:</label>
-    <input type="text" id="routeMap" name="routeMap" [(ngModel)]="activity.routeMap">
-  </div>
-  <div>
-    <label for="userId">User ID:</label>
-    <input type="text" id="userId" name="userId" [(ngModel)]="activity.userId">
-  </div>
-  <button type="submit">Update</button>
-</form>
+  <form (submit)="updateActivity()">
+    <div class="form-group">
+      <label for="activityType">Activity Type:</label>
+      <input type="text" id="activityType" name="activityType" [(ngModel)]="activity.activityType" required>
+    </div>
+
+    <div class="form-group">
+      <label for="distance">Distance:</label>
+      <input type="text" id="distance" name="distance" [(ngModel)]="activity.distance" required>
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Duration:</label>
+      <input type="text" id="duration" name="duration" [(ngModel)]="activity.duration" required>
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" [(ngModel)]="activity.date" required>
+    </div>
+
+    <div class="form-group">
+      <label for="caloriesBurned">Calories Burned:</label>
+      <input type="text" id="caloriesBurned" name="caloriesBurned" [(ngModel)]="activity.caloriesBurned">
+    </div>
+
+    <div class="form-group">
+      <label for="pace">Pace:</label>
+      <input type="text" id="pace" name="pace" [(ngModel)]="activity.pace">
+    </div>
+
+
+
+    <button type="submit">Update</button>
+  </form>
+</div>

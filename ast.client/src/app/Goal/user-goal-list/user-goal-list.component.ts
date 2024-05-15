@@ -41,6 +41,8 @@ export class UserGoalListComponent implements OnInit {
       console.log(this.dailyInfo);
       this.calculateProgress();
     });
+
+    this.calculateProgress();
   }
 
   calculateProgress(): void {
