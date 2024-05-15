@@ -1,1 +1,21 @@
-<p>userchallengelist works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Your Challenges</h2>
+      <div *ngFor="let challenge of challenges" class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ challenge.ChallengeName }}</h5>
+          <p class="card-text">{{ challenge.ChallengeDescription }}</p>
+          <p class="card-text">Target: {{ challenge.ChallengeType }}</p>
+          <p class="card-text">Target: {{ challenge.Target }}</p>
+          <p class="card-text">Before: {{ challenge.EndDate }}</p>
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="challenge.progress">
+              {{ challenge.progress }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

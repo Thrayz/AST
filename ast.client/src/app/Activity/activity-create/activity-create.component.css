@@ -1,3 +1,14 @@
+
+
+
+/* Style for form inputs */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+
 .container {
   margin-top: 50px;
 }
@@ -11,6 +22,7 @@ form {
 
 label {
   font-weight: normal;
+
 }
 
 input[type="text"],
@@ -18,6 +30,14 @@ input[type="number"],
 input[type="date"] {
   width: 100%;
   padding: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Style for submit button */
+button[type="submit"] {
+  display: block;
   border: 1px solid #ced4da;
   border-radius: 5px;
   margin-top: 5px;
@@ -28,6 +48,7 @@ input[type="date"] {
 }
 
 button[type="submit"] {
+
   width: 100%;
   padding: 10px;
   border: none;
@@ -35,7 +56,9 @@ button[type="submit"] {
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
+
   margin-top: 10px;
+
 }
 
   button[type="submit"]:hover {

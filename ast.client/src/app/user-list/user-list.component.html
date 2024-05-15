@@ -1,7 +1,9 @@
 
 <h1>Start a private chat</h1>
 <div *ngFor="let user of users" class="user-item">
+  <div *ngIf="user.id != id">
 
-  <button class="select-button" (click)="selectUser(user)">Message : {{ user.userName }}</button>
 
+    <button class="select-button" (click)="selectUser(user)">Message : {{ user.userName }}</button>
+  </div>
 </div>

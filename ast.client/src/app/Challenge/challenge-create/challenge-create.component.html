@@ -1,40 +1,36 @@
 <h2>Create New Challenge</h2>
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <form class="mt-4" (ngSubmit)="createChallenge()">
-        <div class="form-group">
-          <label for="challengeName">Challenge Name:</label>
-          <input [(ngModel)]="challenge.challengeName" name="challengeName" id="challengeName" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="challengeDescription">Challenge Description:</label>
-          <input [(ngModel)]="challenge.challengeDescription" name="challengeDescription" id="challengeDescription" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="challengeType">Challenge Type:</label>
-          <input [(ngModel)]="challenge.challengeType" name="challengeType" id="challengeType" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="target">Target:</label>
-          <input [(ngModel)]="challenge.target" name="target" id="target" class="form-control">
-        </div>
-        <div class="form-group">
-          <div class="form-check">
-            <input [(ngModel)]="challenge.targetReached" name="targetReached" id="targetReached" class="form-check-input" type="checkbox">
-            <label class="form-check-label" for="targetReached">Target Reached</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="startDate">Start Date:</label>
-          <input [(ngModel)]="challenge.startDate" name="startDate" id="startDate" class="form-control" type="date">
-        </div>
-        <div class="form-group">
-          <label for="endDate">End Date:</label>
-          <input [(ngModel)]="challenge.endDate" name="endDate" id="endDate" class="form-control" type="date">
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Create</button>
-      </form>
-    </div>
-  </div>
+  <div class="text-center">
+    <form class="mt-4" (ngSubmit)="createChallenge()">
+      <div class="form-group">
+        <label for="challengeName">Challenge Name:</label>
+        <input [(ngModel)]="challenge.challengeName" name="challengeName" id="challengeName" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="challengeDescription">Challenge Description:</label>
+        <input [(ngModel)]="challenge.challengeDescription" name="challengeDescription" id="challengeDescription" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="challengeType">Challenge Type:</label>
+        <select [(ngModel)]="challenge.challengeType" name="challengeType" id="challengeType" class="form-control">
+          <option value="Duration">Duration</option>
+          <option value="Distance">Distance</option>
+          <option value="Calories Burned">Calories Burned</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="target">Target:</label>
+        <input [(ngModel)]="challenge.target" name="target" id="target" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input [(ngModel)]="challenge.startDate" name="startDate" id="startDate" class="form-control" type="date">
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input [(ngModel)]="challenge.endDate" name="endDate" id="endDate" class="form-control" type="date">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Create</button>
+    </form>
+
   </div>

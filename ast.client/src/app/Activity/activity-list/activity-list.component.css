@@ -1,0 +1,68 @@
+/* activity-list.component.css */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+  .table th,
+  .table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table th {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-image: none;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+  .btn-primary:hover,
+  .btn-danger:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  .btn-primary:focus,
+  .btn-danger:focus {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }

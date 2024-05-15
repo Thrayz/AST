@@ -10,7 +10,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+
+
+  //a list of users for a private chat
+
   users: User[] = [];
+  public id!: string;
   @Output() userSelected = new EventEmitter<User>();
   constructor(private userService: SharedServiceService, private router: Router) { }
 
@@ -19,10 +24,18 @@ export class UserListComponent implements OnInit {
       this.users = users;
       console.log(users);
     });
+    this.getUserIdFromToken();
   }
 
   getUsers(): Observable<any[]> {
     return this.userService.getUsers();
+  }
+
+
+  getUserIdFromToken(): string {
+    this.id = this.userService.getUserIdFromToken();
+    return this.userService.getUserIdFromToken();
+
   }
 
   selectUser(user: User) {

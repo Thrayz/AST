@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chart from 'chart.js'
+import { SharedServiceService } from '../../_services/shared-service.service';
+import { StatsService } from '../../_services/stats.service';
 
 
 
@@ -10,6 +12,9 @@ import * as Chart from 'chart.js'
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
+  
+
+  // A lot going on here ik 
   public lineBigDashboardChartType: any;
   public gradientStroke: any;
   public chartColor: any;
@@ -60,8 +65,8 @@ export class UserDashboardComponent implements OnInit {
       return "rgb(" + r + ", " + g + ", " + b + ")";
     }
   }
-  constructor() { }
-
+  constructor(private statsService: StatsService, private sharedService: SharedServiceService ) { }
+  userId: any = this.sharedService.getUserIdFromToken();
   ngOnInit() {
     this.chartColor = "#FFFFFF";
     this.canvas = document.getElementById("bigDashboardChart");
@@ -74,10 +79,10 @@ export class UserDashboardComponent implements OnInit {
     this.gradientFill = this.ctx.createLinearGradient(0, 200, 0, 50);
     this.gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     this.gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
-
+    this.statsService.getDailyInfoByUserId('a86ccff4-37e7-485a-aa65-14c5e765a4be').subscribe((data: any[]) => { 
     this.lineBigDashboardChartData = [
         {
-          label: "Data",
+          label: "Your weight",
 
           pointBorderWidth: 1,
           pointHoverRadius: 7,
@@ -86,7 +91,8 @@ export class UserDashboardComponent implements OnInit {
           fill: true,
 
           borderWidth: 2,
-          data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95],
+        data: data.map(dailyInfo => dailyInfo.weight),
+
           backgroundColor: "#367491",
          borderColor: this.chartColor,
          pointBorderColor: this.chartColor,
@@ -106,7 +112,7 @@ export class UserDashboardComponent implements OnInit {
          pointHoverBorderColor: this.chartColor,
        }
      ];
-    this.lineBigDashboardChartLabels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      this.lineBigDashboardChartLabels = data.map(dailyInfo => new Date(dailyInfo.date).toLocaleDateString());
     this.lineBigDashboardChartOptions = {
 
           layout: {
@@ -168,7 +174,8 @@ export class UserDashboardComponent implements OnInit {
 
     this.lineBigDashboardChartType = 'line';
 
-
+    });
+  
     this.gradientChartOptionsConfiguration = {
       maintainAspectRatio: false,
       legend: {
@@ -279,22 +286,21 @@ export class UserDashboardComponent implements OnInit {
     this.gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     this.gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
-    this.lineChartData = [
+    this.statsService.getActivityInfoByUserId(this.userId).subscribe((data: any[]) => {
+      this.lineChartData = [
         {
-          label: "Active Users",
-          pointBorderWidth: 2,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 1,
-          pointRadius: 4,
-          fill: true,
-          borderWidth: 2,
-          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630],
+          label: "Activity Duration",
+          data: data.map(activity => activity.duration),
           borderColor: "#f96332",
           pointBorderColor: "#FFF",
           pointBackgroundColor: "#f96332",
-          backgroundColor: this.gradientFill
+          fill: true,
+          borderWidth: 2
         }
       ];
+
+   
+
       this.lineChartColors = [
        {
          borderColor: "#f96332",
@@ -303,11 +309,11 @@ export class UserDashboardComponent implements OnInit {
          backgroundColor: this.gradientFill
        }
      ];
-    this.lineChartLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    this.lineChartLabels = data.map(activity => new Date(activity.date).toLocaleDateString());
     this.lineChartOptions = this.gradientChartOptionsConfiguration;
 
     this.lineChartType = 'line';
-
+    });
     this.canvas = document.getElementById("lineChartExampleWithNumbersAndGrid");
     this.ctx = this.canvas.getContext("2d");
 
@@ -318,17 +324,18 @@ export class UserDashboardComponent implements OnInit {
     this.gradientFill = this.ctx.createLinearGradient(0, 170, 0, 50);
     this.gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     this.gradientFill.addColorStop(1, this.hexToRGB('#18ce0f', 0.4));
-
+    this.statsService.getActivityInfoByUserId(this.userId).subscribe((data: any[]) => { 
     this.lineChartWithNumbersAndGridData = [
         {
-          label: "Email Stats",
+         
            pointBorderWidth: 2,
            pointHoverRadius: 4,
            pointHoverBorderWidth: 1,
            pointRadius: 4,
            fill: true,
            borderWidth: 2,
-          data: [40, 500, 650, 700, 1200, 1250, 1300, 1900],
+        label: "Calories Burned",
+        data: data.map(activity => activity.caloriesBurned), 
           borderColor: "#18ce0f",
           pointBorderColor: "#FFF",
           pointBackgroundColor: "#18ce0f",
@@ -343,11 +350,11 @@ export class UserDashboardComponent implements OnInit {
          backgroundColor: this.gradientFill
        }
      ];
-    this.lineChartWithNumbersAndGridLabels = ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"];
+      this.lineChartWithNumbersAndGridLabels = data.map(activity => new Date(activity.date).toLocaleDateString());
     this.lineChartWithNumbersAndGridOptions = this.gradientChartOptionsConfigurationWithNumbersAndGrid;
 
     this.lineChartWithNumbersAndGridType = 'line';
-
+    });
 
 
 
@@ -358,17 +365,19 @@ export class UserDashboardComponent implements OnInit {
     this.gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     this.gradientFill.addColorStop(1, this.hexToRGB('#2CA8FF', 0.6));
 
+    this.statsService.getActivityInfoByUserId(this.userId).subscribe((data: any[]) => { 
 
     this.lineChartGradientsNumbersData = [
         {
-          label: "Active Countries",
+        label: "Distance Covered",
+
           pointBorderWidth: 2,
           pointHoverRadius: 4,
           pointHoverBorderWidth: 1,
           pointRadius: 4,
           fill: true,
           borderWidth: 1,
-          data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155],
+        data: data.map(activity => activity.distance), 
           backgroundColor: this.gradientFill,
           borderColor: "#2CA8FF",
           pointBorderColor: "#FFF",
@@ -383,7 +392,7 @@ export class UserDashboardComponent implements OnInit {
        pointBackgroundColor: "#2CA8FF",
      }
    ];
-    this.lineChartGradientsNumbersLabels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      this.lineChartGradientsNumbersLabels = data.map(activity => new Date(activity.date).toLocaleDateString());
     this.lineChartGradientsNumbersOptions = {
         maintainAspectRatio: false,
         legend: {
@@ -432,6 +441,8 @@ export class UserDashboardComponent implements OnInit {
         }
       }
 
-    this.lineChartGradientsNumbersType = 'bar';
+      this.lineChartGradientsNumbersType = 'bar';
+
+    });
   }
 }

@@ -129,6 +129,29 @@ namespace AST.Server.Controllers
             return await _context.ChallengeUsers.ToListAsync();
         }
 
+        //get challenge user by challenge id and usr id 
+        [HttpGet("GetChallengeUser/{challengeId}/{userId}")]
+        public async Task<ActionResult<ChallengeUser>> getChallengeUser(int challengeId, string userId)
+        {
+            var challengeUser = await _context.ChallengeUsers.FirstOrDefaultAsync(cu => cu.ChallengeId == challengeId && cu.UserId == userId);
+            if (challengeUser == null)
+            {
+                return NotFound();
+            }
+            return challengeUser;
+        }
+
+        //get all challenge users by challenge id
+        [HttpGet("GetChallengeUsers/{challengeId}")]
+        public async Task<IEnumerable<ChallengeUser>> getChallengeUsers(int challengeId)
+        {
+            return await _context.ChallengeUsers.Where(cu => cu.ChallengeId == challengeId).ToListAsync();
+        }
+
+        //get all challenges by user id
+
+        
+
 
 
         
@@ -137,6 +160,48 @@ namespace AST.Server.Controllers
         public async Task<IEnumerable<ChallengeUser>> getUserTeams(string userId)
         {
             return await _context.ChallengeUsers.Where(tu => tu.UserId == userId).ToListAsync();
+        }
+
+        [HttpGet("GetChallengesByUserId/{userId}")]
+        public async Task<ActionResult<IEnumerable<Challenge>>> GetChallengesByUserId(string userId)
+        {
+            var challengeUsers = await _context.ChallengeUsers
+                .Where(cu => cu.UserId == userId)
+                .ToListAsync();
+
+            List<Challenge> challenges = new List<Challenge>();
+            foreach (var cu in challengeUsers)
+            {
+                var challenge = await _context.Challenges.FindAsync(cu.ChallengeId);
+                challenges.Add(challenge);
+            }
+
+          
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
+           
+            var json = JsonSerializer.Serialize(challenges, options);
+
+          
+            return Content(json, "application/json");
+        }
+
+
+        //get users by challenge id
+        [HttpGet("GetUsersByChallengeId/{challengeId}")]
+        public async Task<IEnumerable<User>> GetUsersByChallengeId(int challengeId)
+        {
+            var challengeUsers = await _context.ChallengeUsers.Where(cu => cu.ChallengeId == challengeId).ToListAsync();
+            List<User> users = new List<User>();
+            foreach (var cu in challengeUsers)
+            {
+                var user = await _context.Users.FindAsync(cu.UserId);
+                users.Add(user);
+            }
+            return users;
         }
 
 

@@ -70,6 +70,18 @@ export class CrudServiceService {
       );
   }
 
+
+  getActivitiesByUser(userId: string): Observable<any[]> {
+    console.log(this.http.get<any[]>(`${this.apiUrl}/user/${userId}`))
+return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
   getActivitiesPaginated(page: number, pageSize: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/paginated/${page}/${pageSize}`)
       .pipe(
@@ -122,6 +134,16 @@ export class CrudServiceService {
 
   getGoal(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl2}/${id}`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+getGoalsByUser(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl2}/user/${userId}`)
       .pipe(
         catchError((error: any) => {
           console.error('Error:', error);
@@ -380,8 +402,24 @@ getDailyInfo(id: number): Observable<any> {
     }
   }
 
-  async removeUserFromChallenge(challengeId: any, userId: any) {
-    return this.http.post(`${this.apiUrl3}/removeUserFromChallenge`, { challengeId, userId }).toPromise();
+  getChallengeUser(challengeId: number, userId: string): Observable<any> {
+    const url = `${this.apiUrl3}/GetChallengeUser/${challengeId}/${userId}`;
+    return this.http.get<any>(url);
+  }
+
+  removeUserFromChallenge(id: any) {
+    console.log(id)
+    return this.http.delete<any>(`${this.apiUrl3}/removeUserFromChallenge/${id}`)
+    .pipe(
+      catchError((error: any) => {
+        console.error('Error:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  getDailyInfoByUserId(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl6}/GetDailyInfoByUserId/${userId}`);
   }
 
 
@@ -395,7 +433,24 @@ getDailyInfo(id: number): Observable<any> {
       );
   }
 
+ 
+  getChallengesByUserId(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl3}/GetChallengesByUserId/${userId}`);
+  }
 
+ 
+  getUsersByChallengeId(challengeId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl3}/GetUsersByChallengeId/${challengeId}`);
+  }
+
+  getActivitiesByUserDateRange(userId: string, startDate: Date, endDate: Date): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/dateRange`, {
+      params: {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString()
+      }
+    });
+  }
 
   
 

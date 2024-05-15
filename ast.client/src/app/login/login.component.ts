@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SharedServiceService } from '../_services/shared-service.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { SharedServiceService } from '../_services/shared-service.service';
 export class LoginComponent implements OnInit {
   public errorMessage: string | null = null;
 
-  constructor(private sharedService: SharedServiceService) { }
+  constructor(private sharedService: SharedServiceService, private router: Router) { }
 
   ngOnInit(): void {
     
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
     this.sharedService.login(email, password, rememberMe).subscribe(
       (response: any) => {
         console.log("Login successful");
+        this.router.navigate(["/user-dashboard"]);
         
       },
       (error: any) => {

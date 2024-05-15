@@ -1,5 +1,4 @@
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Id</th>
@@ -15,7 +14,6 @@
   </thead>
   <tbody>
     <tr *ngFor="let challenge of challenges">
-      <td>{{userId}}</td>
       <td>{{ challenge.id }}</td>
       <td>{{ challenge.challengeName }}</td>
       <td>{{ challenge.challengeDescription }}</td>
@@ -25,12 +23,12 @@
       <td>{{ challenge.startDate }}</td>
       <td>{{ challenge.endDate }}</td>
       <td>
-        <button (click)="updateChallenge(challenge)">Update</button>
-        <button (click)="deleteChallenge(challenge.id)">Delete</button>
-        <button (click)="joinChallenge(challenge.id)">Join</button>
-        <button (click)="leaveChallenge(challenge.id, userId)">Leave</button>
+        <button (click)="updateChallenge(challenge)" class="btn btn-primary">Update</button>
+        <button (click)="deleteChallenge(challenge.id)" class="btn btn-danger">Delete</button>
+        <button *ngIf="!challenge.userInChallenge" (click)="joinChallenge(challenge.id)" class="btn btn-success">Join</button>
+        <button *ngIf="challenge.userInChallenge" (click)="leaveChallenge(challenge.id)" class="btn btn-warning">Leave</button>
       </td>
     </tr>
   </tbody>
 </table>
-<button (click)="createChallenge()">Create New Challenge</button>
+<button (click)="createChallenge()" class="btn btn-primary">Create New Challenge</button>

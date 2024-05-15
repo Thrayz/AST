@@ -1,0 +1,25 @@
+.my-swal {
+  width: 100px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
+}
+
+.my-swal-popup {
+  width: 50%;
+}
+
+.my-swal-title {
+  font-size: 16px; /* Adjust as needed */
+}
+
+.my-swal-html-container {
+  font-size: 14px; /* Adjust as needed */
+}
+
+.my-swal-confirm-button {
+  font-size: 14px; /* Adjust as needed */
+}
+
+.my-swal-icon {
+  width: 30px; /* Adjust as needed */
+  height: 30px; /* Adjust as needed */
+}

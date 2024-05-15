@@ -35,6 +35,7 @@ export class SignalRLoggingInterceptor {
   }
 
   public handleIncomingMessage(message: string): void {
+    // TODO: remove this and related code in other components
     this.toastr.success(message, 'New Message', {
       enableHtml: false,
       closeButton: true,
