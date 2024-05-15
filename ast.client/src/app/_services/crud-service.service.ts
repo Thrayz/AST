@@ -70,6 +70,17 @@ export class CrudServiceService {
       );
   }
 
+
+  getActivitiesByUser(userId: string): Observable<any[]> {
+return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
   getActivitiesPaginated(page: number, pageSize: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/paginated/${page}/${pageSize}`)
       .pipe(
@@ -122,6 +133,16 @@ export class CrudServiceService {
 
   getGoal(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl2}/${id}`)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+getGoalsByUser(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl2}/user/${userId}`)
       .pipe(
         catchError((error: any) => {
           console.error('Error:', error);
@@ -394,6 +415,10 @@ getDailyInfo(id: number): Observable<any> {
         return throwError(error);
       })
     );
+  }
+
+  getDailyInfoByUserId(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl6}/GetDailyInfoByUserId/${userId}`);
   }
 
 

@@ -23,6 +23,7 @@ import { UserStatsComponent } from '../Dashboard/user-stats/user-stats.component
 import { TeamListComponent } from '../Teams/team-list/team-list.component';
 import { TeamCreateComponent } from '../Teams/team-create/team-create.component';
 import { TeamUpdateComponent } from '../Teams/team-update/team-update.component';
+import { UserGoalListComponent } from '../Goal/user-goal-list/user-goal-list.component';
 
 
 import { SideNavComponent } from '../side-nav/side-nav.component';
@@ -58,6 +59,8 @@ const routes: Routes = [
   { path: 'team-update/:id', component: TeamUpdateComponent },
   { path: 'user-list', component: UserListComponent },
   { path: '', component: HomeComponent },
+{ path: 'user-goal-list', component: UserGoalListComponent },
+
   
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'home', component: HomeComponent },

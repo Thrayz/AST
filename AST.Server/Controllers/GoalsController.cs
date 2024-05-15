@@ -85,6 +85,14 @@ namespace AST.Server.Controllers
             return NoContent();
         }
 
+
+       
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<Goal>>> GetGoalsByUserId(string id)
+        {
+            return await _context.Goals.Where(x => x.UserId == id).ToListAsync();
+        }
+
         private bool GoalExists(int id)
         {
             return _context.Goals.Any(e => e.Id == id);

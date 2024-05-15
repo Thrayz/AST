@@ -103,6 +103,10 @@ namespace AST.Server.Controllers
             return NoContent();
         }
 
+
+       
+       
+
         private bool ActivityExists(int id)
         {
             return _context.Activities.Any(e => e.Id == id);
@@ -110,7 +114,7 @@ namespace AST.Server.Controllers
 
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesForUser(string userId)
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesUser(string userId)
         {
             return await _context.Activities.Where(a => a.UserId == userId).ToListAsync();
         }
