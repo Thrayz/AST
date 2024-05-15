@@ -24,6 +24,7 @@ export class ChatService {
   private apiUrl = 'https://localhost:7122/api/message';
   public messageReceived$ = new Subject<any>();
     signalRInterceptor!: SignalRLoggingInterceptor;
+    notificationSubject: any;
 
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
@@ -199,6 +200,20 @@ export class ChatService {
     console.log('Current user:', currentUserId);
     return this.http.get(`${this.apiUrl}/${userId}?currentUserId=${currentUserId}`);
   }
+
+  listenForNotifications(): void {
+    this.hubConnection.on('NotifyMissingInfo', (message: string) => {
+      this.notificationSubject.next(message);
+    });
+  }
+
+
+
+
+  getNotification(): Observable<string> {
+    return this.notificationSubject.asObservable();
+  }
+
 
   
 }

@@ -53,6 +53,7 @@ import { TeamCreateComponent } from './Teams/team-create/team-create.component';
 import { TeamUpdateComponent } from './Teams/team-update/team-update.component';
 import { TeamListComponent } from './Teams/team-list/team-list.component';
 import { MessageNotificationComponent } from './Notification/message-notification/message-notification.component';
+import { DailyInfoNotificationComponent } from './Notification/daily-info-notification/daily-info-notification.component';
 
 
 @NgModule({
@@ -93,7 +94,8 @@ import { MessageNotificationComponent } from './Notification/message-notificatio
     TeamCreateComponent,
     TeamUpdateComponent,
     TeamListComponent,
-    MessageNotificationComponent
+    MessageNotificationComponent,
+    DailyInfoNotificationComponent
   ],
   imports: [
     BrowserModule,

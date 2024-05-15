@@ -65,7 +65,8 @@ const routes: Routes = [
   { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'home', component: HomeComponent },
   { path: 'activity-update/:id', component: ActivityUpdateComponent },
-  { path: 'activity-create', component: ActivityCreateComponent }
+  { path: 'activity-create', component: ActivityCreateComponent },
+
 
 ];
 

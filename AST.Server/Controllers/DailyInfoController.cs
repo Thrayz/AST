@@ -119,6 +119,15 @@ namespace AST.Server.Controllers
             return await _context.DailyInformations.Where(x => x.UserId == userId).ToListAsync();
         }
 
+        //check if user entered daily info for today
+        [HttpGet("GetDailyInfoByUserIdToday/{userId}")]
+        public async Task<ActionResult<DailyInformation>> GetDailyInfoByUserIdToday(string userId)
+        {
+            var today = DateTime.Now.Date;
+            var dailyInfo = await _context.DailyInformations.FirstOrDefaultAsync(x => x.UserId == userId && x.Date == today);
+            return dailyInfo;
+        }
+
 
         [HttpGet("GetDailyInfoByTeamId/{teamId}")]
         public async Task<ActionResult<IEnumerable<DailyInformation>>> GetDailyInfoByTeamId(int teamId)

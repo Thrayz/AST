@@ -117,6 +117,16 @@ namespace AST.Server.Controllers
                 .ToListAsync();
         }
 
+        //check if user entered activity for today
+        [HttpGet("user/{userId}/today")]
+        public async Task<ActionResult<Activity>> GetActivityUserToday(string userId)
+        {
+            var today = DateTime.Now.Date;
+            var activity = await _context.Activities.FirstOrDefaultAsync(a => a.UserId == userId && DateTime.Parse(a.Date).Date == today);
+            return activity;
+        }
+
+
 
 
         private bool ActivityExists(int id)

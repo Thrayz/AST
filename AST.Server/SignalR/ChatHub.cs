@@ -24,6 +24,24 @@ namespace AST.Server.SignalR
         {
             _context = context;
         }
+        public async Task CheckUserActivitiesAndInfo(string token)
+        { Console.WriteLine("CheckUserActivitiesAndInfo");
+            var userId = GetUserIdFromToken(token);
+            var today = DateTime.Today;
+
+           
+            var hasDailyInfoForToday = await _context.DailyInformations.AnyAsync(di => di.UserId == userId && di.Date == today);
+
+          
+            var hasActivitiesForToday = await _context.Activities.AnyAsync(a => a.UserId == userId && DateTime.Parse(a.Date).Date == today);
+
+
+            if (!hasDailyInfoForToday || !hasActivitiesForToday)
+            {
+                
+                await Clients.Caller.SendAsync("NotifyMissingInfo", "Please enter your daily info and activities for today.");
+            }
+        }
 
         public string GetUserIdFromToken(string token)
         {
@@ -49,6 +67,8 @@ namespace AST.Server.SignalR
             string token = httpContext.Request.Query["access_token"];
             string userId = GetUserIdFromToken(token);
             string connectionId = Context.ConnectionId;
+           
+
             Console.WriteLine(connectionId);
 
             if (!_userConnections.ContainsKey(userId))
